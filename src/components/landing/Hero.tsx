@@ -1,6 +1,6 @@
 export const Hero = () => (
-    <div id="hero" className="2xl:bg-[100%_auto] pt-8 relative"
-        style={{ background: `url('/assets/bg/gradient-bg-hero.svg') no-repeat`, backgroundSize: '100% auto' }}
+    <div id="hero" className="pt-8 relative"
+        style={{ background: `url('/assets/bg/gradient-bg-hero.svg') no-repeat`}}
     >
         <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
         <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />

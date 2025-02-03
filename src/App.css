@@ -34,3 +34,8 @@ html {
     font-family: var(--dm-sans);
 }
 
+@media (min-width: 1536px) {
+    #hero {
+        background-size: 100% auto;
+    }
+}
