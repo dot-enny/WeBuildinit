@@ -26,11 +26,11 @@ export const Faq = () => {
     return (
         <div className="mb-64 satoshi text-balance" id="faq">
             {faqData.map((item, index) => (
-                <details key={index} className="w-full px-6 py-8 my-10 border-[1.4px] border-[#F2F2F2F2] rounded-[1.4px]">
-                    <summary className="text-[#4E4E4E] text-xl md:text-2xl lg:text-[2rem] md:leading-[2.7rem] tracking-[2%] list-none flex items-center after:ml-auto after:inline-block after:content-[url('/assets/icons/plus.svg')]">
+                <details key={index} className="w-full px-6 py-8 my-10 border-[1.4px] border-[#2F2F2F] bg-[#272727] rounded-[1.4px]">
+                    <summary className="text-[#CFCFCF] text-xl md:text-2xl lg:text-[2rem] md:leading-[2.7rem] tracking-[2%] list-none flex items-center after:ml-auto after:inline-block after:content-[url('/assets/icons/plus.svg')]">
                         {item.question}
                     </summary>
-                    <p className="mt-4 text-[#757575] lg:text-lg leading-[1.519rem]">
+                    <p className="mt-4 text-[#B9B9B9] lg:text-lg leading-[1.519rem]">
                         {item.answer}
                     </p>
                 </details>

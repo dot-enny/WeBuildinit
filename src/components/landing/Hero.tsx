@@ -1,8 +1,10 @@
 export const Hero = () => (
-    <div id="hero" className="pt-8">
-        <Navigation />
-        <Description />
-        <Illustration />
+    <div id="hero" className="bg-[url(./assets/bg/gradient-bg-hero.svg)] bg-[100%_auto] bg-no-repeat pt-8">
+        <div className="max-w-[1440px] md:w-[85%] max-sm:px-4 mx-auto">
+            <Navigation />
+            <Description />
+            <Illustration />
+        </div>
     </div>
 );
 
@@ -10,8 +12,8 @@ const Navigation = () => (
     <div className="flex justify-between items-center dm-sans">
         <img src="/logo.svg" alt="Logo" />
         <nav>
-            <ul className="flex gap-x-4 [box-shadow:_0px_4px_8px_0px_#D6D6D640;] rounded px-3 py-[10px] text-sm text-[#B8B8B8]">
-                <li className="text-[#222222] cursor-pointer">
+            <ul className="bg-[#31353A] flex gap-x-4 rounded px-3 py-[10px] text-sm text-[#767676]">
+                <li className="text-white cursor-pointer">
                     <a href="#hero">Home</a>
                 </li>
                 <li>
@@ -22,7 +24,7 @@ const Navigation = () => (
                 </li>
             </ul>
         </nav>
-        <button className="max-sm:hidden cursor-pointer border border-[#7FD6E1] rounded-full text-[#7FD6E1] font-medium px-4 py-[10px] [box-shadow:_-4px_2px_10px_0px_#7FD6E124_inset,_0px_10px_10px_0px_#7FD6E114;]">
+        <button className="max-sm:hidden bg-[#222222] cursor-pointer border border-[#7FD6E1] rounded-full text-[#7FD6E1] font-medium px-4 py-[10px] [box-shadow:_-4px_2px_10px_0px_#7FD6E124_inset,_0px_10px_10px_0px_#7FD6E114;]">
             Get Started
         </button>
     </div>
@@ -30,17 +32,17 @@ const Navigation = () => (
 
 const Description = () => (
     <div className="text-center mt-24 max-w-[50ch] lg:max-w-[69ch] mx-auto flex flex-col items-center gap-y-5 satoshi">
-        <h1 className="text-4xl lg:text-5xl text-[#292929] leading-12 lg:leading-[4.05rem]">AIgenda – Your Everyday Partner for Getting Things Done</h1>
-        <p className="text-[#757575] lg:text-lg leading-[1.519rem]">
+        <h1 className="text-4xl lg:text-5xl text-white leading-12 lg:leading-[4.05rem]">AIgenda – Your Everyday Partner for Getting Things Done</h1>
+        <p className="text-[#B9B9B9] lg:text-lg leading-[1.519rem]">
             Transform your daily to-do list into a simple, smart plan. Whether you're managing a hectic work schedule or juggling personal goals, AIgenda offers intuitive scheduling tailored to your day.
         </p>
-        <button className="cursor-pointer bg-[#7FD6E1] border border-[#7FD6E1] rounded-full text-white text-sm font-medium px-4 py-[10px] [box-shadow:_-4px_2px_10px_0px_#7FD6E124_inset,_0px_10px_10px_0px_#7FD6E114;]">
+        <button className="cursor-pointer bg-[#7FD6E1] border border-[#7FD6E1] rounded-full text-[#222222] text-sm font-medium px-4 py-[10px] [box-shadow:_-4px_2px_10px_0px_#7FD6E124_inset,_0px_10px_10px_0px_#7FD6E114;]">
             Get Started
         </button>
     </div>
 );
 
 const Illustration = () => (
-    <img src="assets/illustrations/hero-illustration.png" alt="Hero Illustration" className="mx-auto mt-8" />
+    <img src="/assets/illustrations/hero-illustration.svg" alt="Hero Illustration" className="mx-auto mt-8" />
 );
 
