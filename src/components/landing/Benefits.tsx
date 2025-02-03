@@ -58,7 +58,10 @@ interface FeatureProps {
 
 export const Benefits = () => {
     return (
-        <div className="mb-64 mt-48" id="benefits">
+        <div className="mb-64 mt-48 overflow-x-clip relative" id="benefits">
+            {/* <img src="/assets/bg/layer-blur.svg" className="border -top-[26rem] left-0 absolute z-" />
+            <img src="/assets/bg/layer-blur.svg" className="border -top-[22rem] left-0 absolute z-" /> */}
+
             <div className="bg-[#1F2123] px-8 py-4 w-fit mx-auto border border-[#353739] rounded-full [box-shadow:_0px_10px_10px_0px_#6767DA14;] font-medium text-[#939393] flex gap-x-2">
                 <img src="/assets/icons/chart.svg" alt="" />
                 Benefits

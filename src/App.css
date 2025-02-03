@@ -33,6 +33,4 @@ html {
 .dm-sans {
     font-family: var(--dm-sans);
 }
-.full-bleed {
-    box-shadow: 0 0 0 100vmax url('./assets/bg/gradient-bg-hero.svg');
-}
+
