@@ -1,5 +1,5 @@
 export const Hero = () => (
-    <div id="hero">
+    <div id="hero" className="pt-8">
         <Navigation />
         <Description />
         <Illustration />
@@ -7,7 +7,7 @@ export const Hero = () => (
 );
 
 const Navigation = () => (
-    <div className="flex justify-between mt-8 items-center dm-sans">
+    <div className="flex justify-between items-center dm-sans">
         <img src="/logo.svg" alt="Logo" />
         <nav>
             <ul className="flex gap-x-4 [box-shadow:_0px_4px_8px_0px_#D6D6D640;] rounded px-3 py-[10px] text-sm text-[#B8B8B8]">
@@ -41,6 +41,6 @@ const Description = () => (
 );
 
 const Illustration = () => (
-    <img src="src/assets/illustrations/hero-illustration.png" alt="Hero Illustration" className="mx-auto mt-8" />
+    <img src="assets/illustrations/hero-illustration.png" alt="Hero Illustration" className="mx-auto mt-8" />
 );
 
