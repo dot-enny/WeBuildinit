@@ -1,6 +1,6 @@
 export const Hero = () => (
     <div id="hero" className="pt-8 relative"
-        style={{ background: `url('/assets/bg/gradient-bg-hero.svg') no-repeat`}}
+        style={{ background: `url('/assets/bg/gradient-bg-hero.svg') center/cover no-repeat` }}
     >
         <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
         <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
