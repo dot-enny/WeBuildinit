@@ -26,10 +26,6 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
-    /* background: url('./assets/bg/gradient-bg-hero.svg') no-repeat; */
-}
-
 .satoshi {
     font-family: var(--satoshi);
 }
