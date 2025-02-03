@@ -1,5 +1,5 @@
 export const Hero = () => (
-    <div id="hero" className="bg-[url(./assets/bg/gradient-bg-hero.svg)] bg-[100%_auto] bg-no-repeat pt-8">
+    <div id="hero" className="bg-[url(./assets/bg/gradient-bg-hero.svg)] 2xl:bg-[100%_auto] bg-no-repeat pt-8">
         <div className="max-w-[1440px] md:w-[85%] max-sm:px-4 mx-auto">
             <Navigation />
             <Description />
