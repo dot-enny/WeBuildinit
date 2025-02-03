@@ -1,6 +1,6 @@
 const features = [
     {
-        bg: 'bg-[url(\'./assets/bg/ellipse-pale-blue.svg\')]',
+        bg: 'bg-[url(\'/assets/bg/ellipse-pale-blue.svg\')]',
         icon: '/assets/icons/smart-reminder.svg',
         title: 'Smart Reminder',
         description: 'Let AIgenda automatically organize your day. It learns your habits and priorities so you always have a plan that adapts to your changing schedule.',
