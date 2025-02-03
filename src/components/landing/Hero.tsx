@@ -1,5 +1,9 @@
 export const Hero = () => (
-    <div id="hero" className="bg-[url(./assets/bg/gradient-bg-hero.svg)] 2xl:bg-[100%_auto] bg-no-repeat pt-8">
+    <div id="hero" className="pt-8 relative">
+        <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
+        <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
+        <img src="/assets/bg/layer-blur.svg" className="md:hidden -bottom-10 mx-auto absolute w-full object-cover" />
+        <img src="/assets/bg/layer-blur.svg" className="md:hidden -bottom-10 mx-auto absolute w-full object-cover" />
         <div className="max-w-[1440px] md:w-[85%] max-sm:px-4 mx-auto">
             <Navigation />
             <Description />
@@ -43,6 +47,8 @@ const Description = () => (
 );
 
 const Illustration = () => (
-    <img src="/assets/illustrations/hero-illustration.svg" alt="Hero Illustration" className="mx-auto mt-8" />
+    <div className="relative">
+        <img src="/assets/illustrations/hero-illustration.svg" alt="Hero Illustration" className="mx-auto mt-8 w-full max-w-[907px] aspect-[907/817.23]" />
+    </div>
 );
 
