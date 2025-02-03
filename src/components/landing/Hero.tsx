@@ -14,7 +14,7 @@ export const Hero = () => (
 
 const Navigation = () => (
     <div className="flex justify-between items-center dm-sans">
-        <img src="/logo.svg" alt="Logo" />
+        <img src="/logo.svg" alt="Logo" className="w-full max-w-[91px] aspect-[91/31]" />
         <nav>
             <ul className="bg-[#31353A] flex gap-x-4 rounded px-3 py-[10px] text-sm text-[#767676]">
                 <li className="text-white cursor-pointer">
