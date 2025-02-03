@@ -1,6 +1,6 @@
 export const Hero = () => (
     <div id="hero" className="2xl:bg-[100%_auto] pt-8 relative"
-        style={{ background: `url('/assets/bg/gradient-bg-hero.svg') no-repeat`}}
+        style={{ background: `url('/assets/bg/gradient-bg-hero.svg') no-repeat`, backgroundSize: '100% auto' }}
     >
         <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
         <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
@@ -50,9 +50,7 @@ const Description = () => (
 
 const Illustration = () => (
     <div className="relative">
-        {/* <img src="/assets/bg/layer-blur.svg" className="border top-[26rem] inset-x-0 absolute z-" />
-        <img src="/assets/bg/layer-blur.svg" className="border top-[22rem] left-0 absolute z-" /> */}
-        <img src="/assets/illustrations/hero-illustration.svg" alt="Hero Illustration" className="mx-auto mt-8" />
+        <img src="/assets/illustrations/hero-illustration.svg" alt="Hero Illustration" className="mx-auto mt-8 w-full max-w-[907px] aspect-[907/817.23]" />
     </div>
 );
 
