@@ -1,10 +1,10 @@
 import { Benefits } from "./landing/Benefits";
+import ConnectWallet from "./landing/ConnectWallet";
 import { Faq } from "./landing/Faq";
 import { Footer } from "./landing/Footer";
 import { Hero } from "./landing/Hero";
 
 const Landing = () => {
-
 
   return (
     <div className="bg-[#222222]">
@@ -14,6 +14,8 @@ const Landing = () => {
         <Faq />
         <Footer />
       </div>
+
+      <ConnectWallet />
     </div>
   );
 };
