@@ -18,6 +18,12 @@ export const useSelectImage = () => {
                 url: URL.createObjectURL(e.target.files[0])
             });
     };
+    const dragImage = (e: any) => {
+        setAvatar({
+            file: e,
+            url: URL.createObjectURL(e)
+        });
+    }
 
-    return { image, selectImage };
+    return { image, selectImage, dragImage };
 }
