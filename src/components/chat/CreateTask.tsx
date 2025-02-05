@@ -2,12 +2,39 @@ import { DialogTitle } from '@headlessui/react'
 import Modal from '../ui/Modal';
 import { useSelectImage } from '../../hooks/useSelectImage';
 import { useAppStateStore } from '../../lib/AppStateStore';
+import { useState } from 'react';
 
 export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => void }) => {
 
     const { setTaskImage } = useAppStateStore();
-    const { image, selectImage } = useSelectImage();
-        
+    const { image, selectImage, dragImage } = useSelectImage();
+    const [dragging, setDragging] = useState(false);
+
+    interface DragEventHandlers {
+        handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+        handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
+    }
+
+    const handleDragOver: DragEventHandlers['handleDragOver'] = (e) => {
+        e.preventDefault();
+        setDragging(true);
+    }
+
+    const handleDragExit: DragEventHandlers['handleDragOver'] = (e) => {
+        e.preventDefault();
+        setDragging(false);
+    }
+
+    const handleDrop: DragEventHandlers['handleDrop'] = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            dragImage(file);
+        } else {
+            alert('Please drop an image file.');
+        }
+    }
+
     return (
         <Modal open={open} setOpen={setOpen} hasBackdrop={false}>
             <>
@@ -23,16 +50,20 @@ export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => vo
                     </div>
                 </div>
 
-                <div className="bg-[#252525] px-6 py-8 mt-5 sm:mt-6 text-center flex flex-col gap-y-2 my-8">
+                <div className={`px-6 py-8 mt-5 sm:mt-6 text-center flex flex-col gap-y-2 my-8 ${dragging ? 'bg-[#2B2B2B]' : 'bg-[#252525]'}`}
+                    onDragOver={handleDragOver}
+                    onDragExit={handleDragExit}
+                    onDrop={handleDrop}
+                >
                     <img src="/assets/icons/upload-image.svg" className="mx-auto" />
                     <span className="text-[#CFCFCF]">Click or drag and drop to upload your file</span>
-                    <span className="text-[#B9B9B9] text-sm">PNG,JPG,PDF,GIF,SVG (Max 5 MB)</span>
-                    <label 
-                        htmlFor="task-image" 
+                    <span className="text-[#B9B9B9] text-sm">PNG,JPG,SVG,WEBP,AVIV (Max 5 MB)</span>
+                    <label
+                        htmlFor="task-image"
                         className="mt-4 cursor-pointer inline-flex w-full justify-center rounded-full bg-black/20 px-3 py-3 text-sm text-[#7FD6E1] shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                            { image.file ? 'Change File' : 'Select File' }
+                        {image.file ? 'Change File' : 'Select File'}
                     </label>
-                    <input type="file" id="task-image" placeholder="My Task.png" className="hidden" onChange={selectImage} />
+                    <input type="file" id="task-image" placeholder="My Task.png" className="hidden" onChange={selectImage} accept="image/*" />
                 </div>
 
                 {
@@ -42,8 +73,8 @@ export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => vo
                         <div className="flex-1 text-sm flex flex-col justify-between">
                             <span className="text-[#CFCFCF]">{image.file.name}</span>
                             <span className="text-[#B9B9B9]">
-                                {image.file.size < 1000000 
-                                    ? (image.file.size * 0.001).toFixed(2) + ' KB' 
+                                {image.file.size < 1000000
+                                    ? (image.file.size * 0.001).toFixed(2) + ' KB'
                                     : (image.file.size * 0.000001).toFixed(2) + ' MB'}
                             </span>
                         </div>
