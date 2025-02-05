@@ -24,9 +24,15 @@ export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => vo
         e.preventDefault();
         setDragging(false);
     }
+
     const handleDrop: DragEventHandlers['handleDrop'] = (e) => {
         e.preventDefault();
-        dragImage(e.dataTransfer.files[0]);
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            dragImage(file);
+        } else {
+            alert('Please drop an image file.');
+        }
     }
 
     return (
@@ -51,7 +57,7 @@ export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => vo
                 >
                     <img src="/assets/icons/upload-image.svg" className="mx-auto" />
                     <span className="text-[#CFCFCF]">Click or drag and drop to upload your file</span>
-                    <span className="text-[#B9B9B9] text-sm">PNG,JPG,PDF,GIF,SVG (Max 5 MB)</span>
+                    <span className="text-[#B9B9B9] text-sm">PNG,JPG,SVG,WEBP,AVIV (Max 5 MB)</span>
                     <label
                         htmlFor="task-image"
                         className="mt-4 cursor-pointer inline-flex w-full justify-center rounded-full bg-black/20 px-3 py-3 text-sm text-[#7FD6E1] shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
