@@ -57,7 +57,7 @@ export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => vo
                         className="mt-4 cursor-pointer inline-flex w-full justify-center rounded-full bg-black/20 px-3 py-3 text-sm text-[#7FD6E1] shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         {image.file ? 'Change File' : 'Select File'}
                     </label>
-                    <input type="file" id="task-image" placeholder="My Task.png" className="hidden" onChange={selectImage} />
+                    <input type="file" id="task-image" placeholder="My Task.png" className="hidden" onChange={selectImage} accept="image/*" />
                 </div>
 
                 {
