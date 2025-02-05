@@ -2,20 +2,35 @@ import { DialogTitle } from '@headlessui/react'
 import { useConnectWallet, useConnectWalletUpdate } from '../../context/ConnectWalletContext'
 import Modal from '../ui/Modal';
 import { useNavigate } from 'react-router-dom';
+import { useAppKit } from '@reown/appkit/react'
+import { useAppKitAccount } from "@reown/appkit/react";
+import { useEffect } from 'react';
+
 
 export default function ConnectWallet() {
 
-  const open = useConnectWallet();
+  const isOpen = useConnectWallet();
   const setOpen = useConnectWalletUpdate();
   const navigate = useNavigate();
+  const { open } = useAppKit();
+  const { address, isConnected } = useAppKitAccount()
 
   const handleConnectWallet = () => {
-    setOpen();
-    navigate('/chat');
+    // setOpen();
+    // navigate('/chat');
+    open();
   }
 
+  useEffect(() => {
+    // console.log({address, isConnected, caipAddress, status, embeddedWalletInfo});
+    if(isConnected) {
+      setOpen();
+      navigate('/chat');
+    }
+  }, [isConnected]);
+
   return (
-    <Modal open={open} setOpen={setOpen}>
+    <Modal open={isOpen} setOpen={setOpen}>
       <>
         <div>
           <div className="mt-3 text-center sm:mt-5">
@@ -35,7 +50,7 @@ export default function ConnectWallet() {
             onClick={handleConnectWallet}
             className="cursor-pointer inline-flex w-full justify-center rounded-full bg-[#7FD6E1] px-3 py-3 text-sm text-[#222222] shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Connnect wallet
+            { isConnected ? 'Disconnect wallet' : 'Connnect wallet' }
           </button>
           <p className="text-center text-[#848D9A] text-xs px-9 leading-[1.25rem] mt-5">By connecting your wallet, you agree to our <a className="text-[#7FD6E1] cursor-pointer">terms of service</a> and our <a className="text-[#7FD6E1] cursor-pointer">privacy policy</a></p>
         </div>
