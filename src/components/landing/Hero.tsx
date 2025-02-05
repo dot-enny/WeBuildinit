@@ -5,11 +5,13 @@ export const Hero = () => {
     const handleOpenModal = useConnectWalletUpdate();
 
     return (
-        <div id="hero" className="pt-8 relative">
-            <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
+        <div id="hero" className="pt-8 relative"
+            style={{ background: `url('/assets/bg/hero-bg.svg') center/cover no-repeat` }}
+        >
+            {/* <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
             <img src="/assets/bg/layer-blur.svg" className="max-md:hidden -bottom-20 2xl:-bottom-56 mx-auto absolute w-full object-cover" />
             <img src="/assets/bg/layer-blur.svg" className="md:hidden -bottom-10 mx-auto absolute w-full object-cover" />
-            <img src="/assets/bg/layer-blur.svg" className="md:hidden -bottom-10 mx-auto absolute w-full object-cover" />
+            <img src="/assets/bg/layer-blur.svg" className="md:hidden -bottom-10 mx-auto absolute w-full object-cover" /> */}
             <div className="max-w-[1440px] md:w-[85%] max-sm:px-4 mx-auto">
                 <Navigation openModal={handleOpenModal} />
                 <Description openModal={handleOpenModal} />
@@ -52,7 +54,7 @@ const Description = ({ openModal }: { openModal: () => void }) => (
         <p className="text-[#B9B9B9] lg:text-lg leading-[1.519rem]">
             Transform your daily to-do list into a simple, smart plan. Whether you're managing a hectic work schedule or juggling personal goals, AIgenda offers intuitive scheduling tailored to your day.
         </p>
-        <button className="cursor-pointer bg-[#7FD6E1] border border-[#7FD6E1] rounded-full text-[#222222] text-sm font-medium px-4 py-[10px] [box-shadow:_-4px_2px_10px_0px_#7FD6E124_inset,_0px_10px_10px_0px_#7FD6E114;]"
+        <button className="cursor-pointer z-10 bg-[#4AEBFF] border rounded-full text-[#222222] text-sm font-medium px-4 py-[10px] [box-shadow:_0px_10px_16px_0px_#7FD6E129;]"
             onClick={openModal}
         >
             Get Started
@@ -61,8 +63,11 @@ const Description = ({ openModal }: { openModal: () => void }) => (
 );
 
 const Illustration = () => (
-    <div className="relative">
-        <img src="/assets/illustrations/hero-illustration.svg" alt="Hero Illustration" className="mx-auto mt-8 w-full max-w-[907px] aspect-[907/817.23]" />
+    <div className="relative flex">
+        {/* <img src="/assets/bg/hero-blur.svg" alt="Hero Illustration" className="" /> */}
+        {/* <img src="/assets/illustrations/hero-illustration1.svg" alt="Hero Illustration" className="mx-auto mt-8 w-full max-w-[497px] aspect-[497/751] blur-xs -rotate-12 translate-y-10 translate-x-32" />
+        <img src="/assets/illustrations/hero-illustration2.svg" alt="Hero Illustration" className="mx-auto mt-8 w-full max-w-[497px] aspect-[497/733] -translate-x-30" /> */}
+        <img src="/assets/illustrations/hero-illustration.svg" alt="Hero Illustration" className="mx-auto md:-mt-20 w-full max-w-[907px] aspect-[907/817.23]" />
     </div>
 );
 
