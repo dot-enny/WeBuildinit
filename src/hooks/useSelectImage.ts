@@ -11,18 +11,12 @@ export const useSelectImage = () => {
         url: ""
     });
 
-    // const { setTaskImage } = useAppStateStore();
-
-    // const updateFile = useFileUpdateContext();
     const selectImage = (e: any) => {
         if (e.target.files[0])
             setAvatar({
                 file: e.target.files[0],
                 url: URL.createObjectURL(e.target.files[0])
             });
-            console.log(e.target.files[0]);
-            // updateFile(e.target.files[0]);
-            // setTaskImage(e.target.files[0]);
     };
 
     return { image, selectImage };
