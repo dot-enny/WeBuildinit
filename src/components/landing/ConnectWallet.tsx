@@ -5,9 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAppKit } from '@reown/appkit/react'
 import { useAppKitAccount } from "@reown/appkit/react";
 import { useEffect } from 'react';
+import { useAppStateStore } from '../../lib/AppStateStore';
 
 
 export default function ConnectWallet() {
+
+  const { setWalletAddress } = useAppStateStore();
 
   const isOpen = useConnectWallet();
   const setOpen = useConnectWalletUpdate();
@@ -15,19 +18,22 @@ export default function ConnectWallet() {
   const { open } = useAppKit();
   const { address, isConnected } = useAppKitAccount()
 
-  const handleConnectWallet = () => {
-    // setOpen();
-    // navigate('/chat');
+  const handleOpenModal = () => {
     open();
   }
 
+
   useEffect(() => {
     // console.log({address, isConnected, caipAddress, status, embeddedWalletInfo});
-    if(isConnected) {
+    if (isConnected) {
       setOpen();
-      navigate('/chat');
+      if (address) {
+        // updateWallet('SET_WALLET_ADDRESS', address);
+        setWalletAddress(address);
+        navigate('/tasks')
+      }
     }
-  }, [isConnected]);
+  }, [isConnected, address]);
 
   return (
     <Modal open={isOpen} setOpen={setOpen}>
@@ -47,10 +53,10 @@ export default function ConnectWallet() {
         <div className="mt-5 sm:mt-6">
           <button
             type="button"
-            onClick={handleConnectWallet}
+            onClick={handleOpenModal}
             className="cursor-pointer inline-flex w-full justify-center rounded-full bg-[#7FD6E1] px-3 py-3 text-sm text-[#222222] shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            { isConnected ? 'Disconnect wallet' : 'Connnect wallet' }
+            {isConnected ? 'Disconnect wallet' : 'Connnect wallet'}
           </button>
           <p className="text-center text-[#848D9A] text-xs px-9 leading-[1.25rem] mt-5">By connecting your wallet, you agree to our <a className="text-[#7FD6E1] cursor-pointer">terms of service</a> and our <a className="text-[#7FD6E1] cursor-pointer">privacy policy</a></p>
         </div>

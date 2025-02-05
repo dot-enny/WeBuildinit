@@ -1,6 +1,6 @@
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from "@headlessui/react"
 import { NavigationItem } from "../../types/types"
-import { ChatHistory, Logo, NavList, Separator, WalletInfo } from "./DesktopSidebar"
+import { Logo, NavList, Separator, WalletInfo } from "./SidebarBlocks"
 
 export const MobileSidebar = ({ sidebarOpen, setSidebarOpen, navigation }: { sidebarOpen: boolean, setSidebarOpen: (val: boolean) => void, navigation: NavigationItem[] }) => {
     return (
@@ -36,8 +36,8 @@ export const MobileSidebar = ({ sidebarOpen, setSidebarOpen, navigation }: { sid
                                 <li>
                                     <NavList navigation={navigation} />
                                 </li>
-                                <Separator />
-                                <ChatHistory />
+                                {/* <Separator /> */}
+                                {/* <ChatHistory /> */}
                             </ul>
                         </nav>
                     </div>

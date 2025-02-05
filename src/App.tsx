@@ -1,9 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './components/Landing';
-
 import "./App.css";
 import { ConnectWalletProvider } from './context/ConnectWalletContext';
-import { Chat } from './pages/Chat';
 import SidebarLayout from './components/sidebar/SidebarLayout';
 import { Tasks } from './pages/Tasks';
 
@@ -18,13 +16,13 @@ const solanaWeb3JsAdapter = new SolanaAdapter({
 })
 
 // 1. Get projectId from https://cloud.reown.com
-const projectId = 'YOUR_PROJECT_ID'
+const projectId = 'f4870358a6e524b2eabe5f488474c89c';
 
 // 2. Create a metadata object - optional
 const metadata = {
   name: 'AppKit',
   description: 'AppKit Solana Example',
-  url: 'https://example.com', // origin must match your domain & subdomain
+  url: 'https://aigenda-xi.vercel.app', // origin must match your domain & subdomain
   icons: ['https://avatars.githubusercontent.com/u/179229932']
 }
 
@@ -41,8 +39,8 @@ createAppKit({
 
 function App() {
 
-  
-  
+
+
   return (
     <Router>
       <Routes>
@@ -56,24 +54,31 @@ function App() {
             </div>
           }
         />
-        <Route
-          path="/chat"
-          element={
-            <SidebarLayout>
-              <Chat />
-            </SidebarLayout>
-          }
-        />
+        {/* <Route
+              path="/chat"
+              element={
+                <SidebarLayout>
+                  <Chat />
+                </SidebarLayout>
+              }
+            /> */}
         <Route
           path="/tasks"
           element={
-            <SidebarLayout>
-              <Tasks />
-            </SidebarLayout>
+            <div>
+              {/* <WalletProvider> */}
+
+                <SidebarLayout>
+                  {/* <FileProvider> */}
+                    <Tasks />
+                  {/* </FileProvider> */}
+                </SidebarLayout>
+              {/* </WalletProvider> */}
+            </div>
           }
         />
         {/* New page */}
-        
+
       </Routes>
     </Router>
   );

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { StarIcon } from '../../assets/icons/StarIcon'
-import { ClockIcon } from '../../assets/icons/ClockIcon'
+// import { ClockIcon } from '../../assets/icons/ClockIcon'
 import { DesktopSidebar } from './DesktopSidebar'
 import { MobileSidebar } from './MobileSidebar'
 
 
 export const navigation = [
-    { name: 'AI chat', href: '/chat', icon: StarIcon },
-    { name: 'Task', href: '/tasks', icon: ClockIcon },
+    // { name: 'AI chat', href: '/chat', icon: StarIcon },
+    { name: 'Tasks', href: '/tasks', icon: StarIcon },
 ]
 
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {
@@ -36,17 +36,17 @@ const ContentArea = ({ children, setSidebarOpen }: { children: React.ReactNode, 
 
             <main className="py-5 max-md:px-2 lg:pl-56 xl:pl-72 bg-[#222222] h-screen">
                 <div className="flex h-full ml-4 bg-[#1F1F1F] max-md:rounded md:rounded-tl-lg md:rounded-bl-lg">
-                    <div className="flex-1 px-4 md:px-8">{children}</div>
+                    <div className="flex-1 pr-4 md:pr-8">{children}</div>
 
                     {/* TASK NOTIFICATION */}
-                    <div className="max-md:hidden h-full border-l border-[#2D2D2D] flex flex-col px-2 md:px-6 xl:px-8">
+                    {/* <div className="max-md:hidden h-full border-l border-[#2D2D2D] flex flex-col px-2 md:px-6 xl:px-8">
                         <div className="flex h-16 shrink-0 items-center">
                             <img alt="notifications" src="/assets/icons/bell.svg" />
                         </div>
                         <div className="flex-1 flex items-center px-14">
                             <span className="text-white text-[1.25rem]">No tasks yet</span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </main>
         </>
