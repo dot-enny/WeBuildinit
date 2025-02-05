@@ -66,3 +66,15 @@ body {
 .pink-box-shadow {
     box-shadow: inset 0px -4px 4px rgba(212, 165, 197, 0.5);
 }
+
+.tasks-bg {
+    background: url('/assets/bg/tasks-page-bg.svg') no-repeat;
+    background-position: bottom -80vmin left 100%;
+    background-size: cover;
+}
+
+@media (max-width: 767px) {
+    .tasks-bg {
+        background-position: bottom -500px left 100%;
+    }
+}

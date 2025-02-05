@@ -19,19 +19,16 @@ export const Tasks = () => {
     const fileUpload = taskImage != null;
 
     useEffect(() => {
-        if (fileUpload) {
-            setOpen(false);
-        }
-        console.log(fileUpload);
+        if (fileUpload) setOpen(false);
     }, [fileUpload]);
-    
+
 
     return (
-        <div className="h-full flex flex-col pb-4 md:pb-10 pt-5"
-            style={{ background: 'url(/assets/bg/tasks-page-bg.svg) no-repeat', backgroundPosition: 'bottom -80vmin left 100%', backgroundSize: 'cover' }}
+        <div className="h-full flex flex-col pb-4 md:pb-10 pt-5 tasks-bg"
+            // style={{ background: 'url(/assets/bg/tasks-page-bg.svg) no-repeat', backgroundPosition: 'bottom -80vmin left 100%', backgroundSize: 'cover' }}
         >
             <div className="flex justify-between gap-x-12 pl-8">
-                <div className={`flex flex-col gap-y-2 transition ${fileUpload ? 'opacity-100': 'opacity-0'}`}>
+                <div className={`flex flex-col gap-y-2 transition ${fileUpload ? 'opacity-100' : 'opacity-0'}`}>
                     <h4 className="md:text-[1.25rem] text-white">Personal TO-Do list</h4>
                     <p className="text-sm text-[#B9B9B9] leading-[1.181rem] max-sm:hidden">Transform your daily to-do list into a simple, smart plan. Whether you're managing a hectic work schedule or juggling personal goals, AIgenda offers intuitive scheduling tailored to your day.</p>
                 </div>
@@ -40,7 +37,7 @@ export const Tasks = () => {
                 </button>
             </div>
             <div className="pl-8">
-                <div className={`bg-[#333131] h-px w-full mt-4 origin-left transition ${fileUpload ? 'scale-100': 'scale-0'}`} />
+                <div className={`bg-[#333131] h-px w-full mt-4 origin-left transition ${fileUpload ? 'scale-100' : 'scale-0'}`} />
             </div>
 
             {/* <Messages /> */}
@@ -65,41 +62,30 @@ const TaskList = () => {
             <span className="text-white text-lg">Job Interview</span>
             <span className="text-white text-lg">Add Tasks</span>
             <ul className="flex flex-col gap-y-4 mb-4 overflow-y-aut h-full max-h-full">
-                <li className="bg-[#393B3C] flex items-center p-4 rounded">
-                    <input type="checkbox" defaultChecked className="accent-[#CFCFCF] rounded" />
-                    <p className="text-sm text-[#CFCFCF] ml-2 mr-3">Prepare Cover Letter</p>
-                    <span className="text-xs rounded-lg bg-[#DAF7DA] text-[#19C819] p-1">Today</span>
-                    <div className="ml-auto">
-                        <StarIcon outline />
-                    </div>
-                </li>
-                <li className="bg-[#393B3C] flex items-center p-4 rounded">
-                    <input type="checkbox" defaultChecked className="accent-[#CFCFCF] rounded" />
-                    <p className="text-sm text-[#CFCFCF] ml-2 mr-3">Prepare Cover Letter</p>
-                    <span className="text-xs rounded-lg bg-[#DAF7DA] text-[#19C819] p-1">Today</span>
-                    <div className="ml-auto">
-                        <StarIcon outline />
-                    </div>
-                </li>
-                <li className="bg-[#393B3C] flex items-center p-4 rounded">
-                    <input type="checkbox" defaultChecked className="accent-[#CFCFCF] rounded" />
-                    <p className="text-sm text-[#CFCFCF] ml-2 mr-3">Prepare Cover Letter</p>
-                    <span className="text-xs rounded-lg bg-[#474747] text-[#838383] p-1">Tomorrow</span>
-                    <div className="ml-auto">
-                        <StarIcon outline />
-                    </div>
-                </li>
-                <li className="bg-[#393B3C] flex items-center p-4 rounded">
-                    <input type="checkbox" defaultChecked className="accent-[#CFCFCF] rounded" />
-                    <p className="text-sm text-[#CFCFCF] ml-2 mr-3">Prepare Cover Letter</p>
-                    <span className="text-xs rounded-lg bg-[#474747] text-[#838383] p-1">Tomorrow</span>
-                    <div className="ml-auto">
-                        <StarIcon outline />
-                    </div>
-                </li>
+               <TaskItem />
+               <TaskItem />
+               <TaskItem deadline="tomorrow" />
+               <TaskItem deadline="tomorrow" />
             </ul>
             <span className="text-white text-lg">Completed Tasks</span>
         </div>
+    )
+}
+
+const TaskItem = ({ deadline='today' }: { deadline?: string }) => {
+    return (
+        <li className="bg-[#393B3C] flex items-center p-4 rounded">
+            <input type="checkbox" defaultChecked className="accent-[#CFCFCF] rounded" />
+            <p className="text-sm text-[#CFCFCF] ml-2 mr-3">Prepare Cover Letter</p>
+            {deadline === 'today' ? (
+                <span className="text-xs rounded-lg bg-[#DAF7DA] text-[#19C819] p-1">Today</span>
+                ) : (
+                <span className="text-xs rounded-lg bg-[#474747] text-[#838383] p-1">Tomorrow</span>
+            )}
+            <div className="ml-auto">
+                <StarIcon outline />
+            </div>
+        </li>
     )
 }
 
