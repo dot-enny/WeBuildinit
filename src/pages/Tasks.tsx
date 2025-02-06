@@ -29,7 +29,7 @@ export const Tasks = () => {
         >
             <div className="flex justify-between gap-x-12 pl-8">
                 <div className={`flex flex-col gap-y-2 transition ${fileUpload ? 'opacity-100' : 'opacity-0'}`}>
-                    <h4 className="md:text-[1.25rem] text-white">Personal TO-Do list</h4>
+                    <h4 className="md:text-[1.25rem] text-white max-sm:ml-8">Personal TO-Do list</h4>
                     <p className="text-sm text-[#B9B9B9] leading-[1.181rem] max-sm:hidden">Transform your daily to-do list into a simple, smart plan. Whether you're managing a hectic work schedule or juggling personal goals, AIgenda offers intuitive scheduling tailored to your day.</p>
                 </div>
                 <button type="button" className="self-start">
@@ -43,13 +43,14 @@ export const Tasks = () => {
             {/* <Messages /> */}
             {
                 fileUpload &&
-                <TaskList />
+                <div className="overflow-y-auto">
+                    <TaskList />
+                </div>
             }
 
             <button onClick={handleShowModal} className="justify-self-end mt-auto mx-auto cursor-pointer">
                 {/* <ChatTextArea /> */}
                 <img src="/assets/icons/add-task.svg" />
-
             </button>
             <CreateTask open={open} setOpen={handleShowModal} />
         </div>
@@ -61,9 +62,12 @@ const TaskList = () => {
         <div className="pl-8 flex flex-col gap-y-3 mt-5">
             <span className="text-white text-lg">Job Interview</span>
             <span className="text-white text-lg">Add Tasks</span>
-            <ul className="flex flex-col gap-y-4 mb-4 overflow-y-aut h-full max-h-full">
+            <ul className="flex flex-col gap-y-4 mb-4">
                <TaskItem />
                <TaskItem />
+               <TaskItem deadline="tomorrow" />
+               <TaskItem deadline="tomorrow" />
+               <TaskItem deadline="tomorrow" />
                <TaskItem deadline="tomorrow" />
                <TaskItem deadline="tomorrow" />
             </ul>

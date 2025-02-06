@@ -27,15 +27,15 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
 const ContentArea = ({ children, setSidebarOpen }: { children: React.ReactNode, setSidebarOpen: (val: boolean) => void }) => {
     return (
         <>
-            <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-gray-400 lg:hidden fixed top-5 left-5 rounded-full border border-black/40 bg-[#2F2F2F]">
+            <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-gray-400 lg:hidden fixed top-6 left-5 rounded-full border border-black/40 bg-[#2F2F2F]">
                 <span className="sr-only">Open sidebar</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
                     <path fill-rule="evenodd" d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
                 </svg>
             </button>
 
-            <main className="py-5 max-md:px-2 lg:pl-56 xl:pl-72 bg-[#222222] h-screen">
-                <div className="flex h-full ml-4 bg-[#1F1F1F] max-md:rounded md:rounded-tl-lg md:rounded-bl-lg">
+            <main className="py-5 max-md:p-0 lg:pl-56 xl:pl-72 bg-[#222222] h-screen">
+                <div className="flex h-full md:ml-4 bg-[#1F1F1F] max-md:rounded md:rounded-tl-lg md:rounded-bl-lg">
                     <div className="flex-1 pr-4 md:pr-8">{children}</div>
 
                     {/* TASK NOTIFICATION */}
