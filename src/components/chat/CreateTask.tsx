@@ -3,12 +3,24 @@ import Modal from '../ui/Modal';
 import { useSelectImage } from '../../hooks/useSelectImage';
 import { useAppStateStore } from '../../lib/AppStateStore';
 import { useState } from 'react';
+import { useUploadImage } from '../../hooks/useUploadImage';
+import { useGetTasks } from '../../hooks/useGetTasks';
+import { Spinner } from '../ui/Spinner';
 
 export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => void }) => {
 
-    const { setTaskImage } = useAppStateStore();
+    const { walletAddress } = useAppStateStore();
     const { image, selectImage, dragImage } = useSelectImage();
     const [dragging, setDragging] = useState(false);
+
+    const { uploadImageMutation, isUploading } = useUploadImage();
+    const { getTasks } = useGetTasks();
+
+    const handleFileUpload = async () => {
+        await uploadImageMutation({ image, walletAddress });
+        getTasks();
+        setOpen();
+    }
 
     interface DragEventHandlers {
         handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
@@ -78,7 +90,10 @@ export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => vo
                                     : (image.file.size * 0.000001).toFixed(2) + ' MB'}
                             </span>
                         </div>
-                        <button onClick={setTaskImage} className="cursor-pointer bg-[#4AEBFF] text-[#222222] [box-shadow:_0px_10px_16px_0px_#7FD6E129;] py-2 px-6 rounded-full">Send</button>
+                        <button onClick={handleFileUpload} className="cursor-pointer bg-[#4AEBFF] text-[#222222] [box-shadow:_0px_10px_16px_0px_#7FD6E129;] py-2 px-6 rounded-full relative">
+                            <span className={`${isUploading ? 'invisible' : ''}`}>Send</span> 
+                            <Spinner className={`${!isUploading ? 'invisible' : 'size-2'}`} />
+                        </button>
                     </div>
                 }
             </>
