@@ -22,11 +22,9 @@ export const useGetTasks = () => {
                 credentials: 'include'
             });
             const data = await response.json();
-            // console.log(data)
             setTasks(data);
             setListObjects(data)
             console.log('list fetched', data);
-            console.log(listObjects)
         } catch (err) {
             console.log('error fetching lists', err);
         }

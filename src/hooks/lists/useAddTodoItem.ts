@@ -20,7 +20,7 @@ export const useAddTodoItem = () => {
 
             if (response.status !== 200 && response.status !== 201) {
                 const errorData = await response.data;
-                throw new Error(`Failed to upload image: ${response.status} - ${errorData?.message || response.statusText}`);
+                throw new Error(`Failed create task: ${response.status} - ${errorData?.message || response.statusText}`);
             }
         } catch (error) {
             console.log(error)

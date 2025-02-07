@@ -93,8 +93,8 @@ const SelectMode = ({ open, setOpen, handleSelect }: SelectingModalProps) => {
                 How would you like to create your list?
             </DialogTitle>
             <div className="text-white flex flex-col gap-y-4">
-                <button className="border border-[#2F2F2F] rounded-lg py-5" onClick={() => handleSelect('image')}>With Image</button>
-                <button className="border border-[#2F2F2F] rounded-lg py-5" onClick={() => handleSelect('text')}>With Text</button>
+                <button className="cursor-pointer border border-[#2F2F2F] rounded-lg py-5" onClick={() => handleSelect('image')}>With Image</button>
+                <button className="cursor-pointer border border-[#2F2F2F] rounded-lg py-5" onClick={() => handleSelect('text')}>With Text</button>
             </div>
         </Modal>
     );
@@ -125,7 +125,7 @@ const CreateTaskWithText = ({ open, setOpen }: TextModeProps) => {
             <form onSubmit={handleCreateTask} className="text-white flex flex-col gap-y-4">
                 <input type="text" name="name" placeholder="Enter list name" className="bg-[#333131] border border-[#2F2F2F] rounded-lg py-5 px-3" />
                 <input type="text" name="suggestions" placeholder="Enter suggestions comma separated" className="bg-[#333131] border border-[#2F2F2F] rounded-lg py-5 px-3" />
-                <button className="border border-[#2F2F2F] rounded-lg py-5 relative">
+                <button disabled={isLoading} className="cursor-pointer border border-[#2F2F2F] rounded-lg py-5 relative disabled:opacity-60 disabled:cursor-not-allowed">
                     <span className={`${isLoading ? 'invisible' : ''}`}>Send</span>
                     <Spinner className={`${!isLoading ? 'invisible' : 'size-2'}`} />
                 </button>

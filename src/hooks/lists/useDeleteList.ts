@@ -13,14 +13,14 @@ export const useDeleteList = () => {
         setIsDeleting(true);
         try {
             const encodedWalletAddress = encodeURIComponent(walletAddress);
-            const response = await axios.delete(`${BASE_URL}users/${encodedWalletAddress}/lists/${listId}/`)
-            console.log('list deleted', response)
+            await axios.delete(`${BASE_URL}users/${encodedWalletAddress}/lists/${listId}/`)
+            getTasks();
         } catch (error) {
             console.error('Error deleting list', error);
             throw error; // Re-throw the error to be handled by the calling function
+        } finally {
+           setIsDeleting(false);
         }
-        setIsDeleting(false);
-        getTasks();
     }
 
     return { deleteList, isDeleting }
