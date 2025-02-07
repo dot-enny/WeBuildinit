@@ -17,10 +17,10 @@ export const Tasks = () => {
     const noList = (listObjects.length === 0) && (tasks.length === 0);
 
     return (
-        <div className="h-full flex flex-col pb-4 md:pb-10 pt-5 tasks-bg relative">
+        <div className="h-full flex flex-col pb-4 md:pb-10 pt-5 tasks-bg relative pl-5 md:pl-8">
 
             <ListsPageHeader isLoading={isLoading || isLoadingLists} />
-            <button className={`text-red-300 text-lg mt-2 text-start ml-8 transtiion duration-500 ${(!(isLoading || isLoadingLists) && !noList) ? 'opacity-100': 'opacity-0'}`} onClick={handleOpenDeleteModal}>Delete lists</button>
+            <button className={`text-red-300 text-lg mt-2 text-start ml- transtiion duration-500 ${(!(isLoading || isLoadingLists) && !noList) ? 'opacity-100': 'opacity-0'}`} onClick={handleOpenDeleteModal}>Delete lists</button>
 
             <div className="overflow-y-auto pt-5">
                 {

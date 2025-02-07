@@ -2,7 +2,7 @@ import { TodoList } from "./todo-list/TodoList";
 
 export const TodoLists = ({ lists }: { lists: any[] }) => {
     return (
-        <div className="pl-8 flex flex-col gap-y-3">
+        <div className="pl- flex flex-col gap-y-3">
             {/* <span className="text-white text-lg">Job Interview</span> */}
             <ul className="flex flex-col gap-y-4 mb-4">
                 {lists &&
