@@ -32,12 +32,11 @@ export const useCreateListWithText = () => {
                 }
             );
             getTasks();
-            console.log('task created with text', response)
         } catch (error) {
             console.log('error createing task with text', error)
         }
         setIsLoading(false); // Set loading
     }
 
-    return {  createTask, isLoading }
+    return { createTask, isLoading }
 }

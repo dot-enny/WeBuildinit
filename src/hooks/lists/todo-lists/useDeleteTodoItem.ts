@@ -5,9 +5,11 @@ import { useState } from "react";
 
 export const useDeleteTodoItem = () => {
     const [deleteError, setDeleteError] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
     const { walletAddress } = useAppStateStore();
 
     const deleteItem = async (listId: string, itemId: string) => {
+        setIsDeleting(true);
         try {
             const encodedWalletAddress = encodeURIComponent(walletAddress);
             const response = await axios.delete(`${BASE_URL}users/${encodedWalletAddress}/lists/${listId}/items/${itemId}/`)
@@ -16,8 +18,10 @@ export const useDeleteTodoItem = () => {
             console.error('Error deleting list', error);
             setDeleteError(error as string);
             throw error; // Re-throw the error to be handled by the calling function
+        } finally {
+            setIsDeleting(false);
         }
     }
 
-    return { deleteItem, deleteError }
+    return { deleteItem, deleteError , isDeleting }
 }
