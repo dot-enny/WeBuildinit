@@ -2,17 +2,17 @@ import { DialogTitle } from '@headlessui/react';
 import { useConnectWallet, useConnectWalletUpdate } from '../../context/ConnectWalletContext';
 import Modal from '../ui/Modal';
 import { useNavigate } from 'react-router-dom';
-import { useAppKit } from '@reown/appkit/react';
-import { useAppKitAccount } from "@reown/appkit/react";
-import { useEffect } from 'react';
-import { useAppStateStore } from '../../lib/AppStateStore';
+// import { useAppKit } from '@reown/appkit/react';
+// import { useAppKitAccount } from "@reown/appkit/react";
+// import { useEffect } from 'react';
+// import { useAppStateStore } from '../../lib/AppStateStore';
 // import { useMutation, useQuery } from '@tanstack/react-query';
 // import { BASE_URL, createUser, getUser } from '../../lib/services';
-import { useGetWallet } from '../../hooks/useGetWallet';
+// import { useGetWallet } from '../../hooks/useGetWallet';
 // import { createUser } from '../../lib/services';
 
 export default function ConnectWallet() {
-  const { setWalletAddress } = useAppStateStore();
+  // const { setWalletAddress } = useAppStateStore();
   const isOpen = useConnectWallet();
   const setOpen = useConnectWalletUpdate();
   const navigate = useNavigate();
