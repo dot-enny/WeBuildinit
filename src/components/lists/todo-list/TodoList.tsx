@@ -40,7 +40,7 @@ export const TodoList = ({ list }: { list: any }) => {
                                 type="text"
                                 value={item.label}
                                 onChange={(e) => handleInputChange(index, e.target.value)}
-                                className="text-sm text-[#CFCFCF] ml-2 mr-3 bg-[#393B3C] p-2 rounded field-sizing-content placeholder:text-xs max-sm:placeholder-transparent"
+                                className="text-sm text-[#CFCFCF] ml-2 mr-3 bg-[#393B3C] p-2 rounded field-sizing-content max-w-full min-w-[200px] placeholder:text-xs max-sm:placeholder-transparent"
                                 autoFocus={index === newItems.length - 1}
                                 onKeyDown={(e) => handleKeyMap(e, index)}
                                 placeholder={index === newItems.length - 1 ? 'Shft+Entr-new, Entr-save' : ''}
