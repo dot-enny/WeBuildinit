@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { useGetListItems } from "./useGetListItems";
 import { useAddTodoItem } from "./useAddTodoItem";
 
 export const useTodoList = (listId: string) => {
-    const { getListItems } = useGetListItems();
     const { addTodoItem } = useAddTodoItem();
     const [isAddingItem, setIsAddingItem] = useState(false);
     const [inputingItem, setInputingItem] = useState(false);
@@ -26,7 +24,6 @@ export const useTodoList = (listId: string) => {
         await Promise.all(newItems.map(item => addTodoItem(listId, item.label)));
         setNewItems([]);
         setInputingItem(false);
-        await getListItems(listId);
         setIsAddingItem(false);
     };
 
@@ -56,5 +53,5 @@ export const useTodoList = (listId: string) => {
         }
     }
 
-    return {  isAddingItem, handleAddItem, handleInputChange, handleSaveItems, handleNewInput, handleShiftEnter, handleKeyMap, newItems, inputingItem }
+    return { isAddingItem, handleAddItem, handleInputChange, handleSaveItems, handleNewInput, handleShiftEnter, handleKeyMap, newItems, inputingItem }
 }
