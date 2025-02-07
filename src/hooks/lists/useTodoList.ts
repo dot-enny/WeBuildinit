@@ -5,6 +5,7 @@ import { useAddTodoItem } from "./useAddTodoItem";
 export const useTodoList = (listId: string) => {
     const { getListItems } = useGetListItems();
     const { addTodoItem } = useAddTodoItem();
+    const [isAddingItem, setIsAddingItem] = useState(false);
     const [inputingItem, setInputingItem] = useState(false);
     const [newItems, setNewItems] = useState<any[]>([]);
 
@@ -21,10 +22,12 @@ export const useTodoList = (listId: string) => {
     };
 
     const handleSaveItems = async () => {
+        setIsAddingItem(true);
         await Promise.all(newItems.map(item => addTodoItem(listId, item.label)));
         setNewItems([]);
         setInputingItem(false);
-        getListItems(listId);
+        await getListItems(listId);
+        setIsAddingItem(false);
     };
 
     const handleNewInput = (index: number) => {
@@ -53,5 +56,5 @@ export const useTodoList = (listId: string) => {
         }
     }
 
-    return {  handleAddItem, handleInputChange, handleSaveItems, handleNewInput, handleShiftEnter, handleKeyMap, newItems, inputingItem }
+    return {  isAddingItem, handleAddItem, handleInputChange, handleSaveItems, handleNewInput, handleShiftEnter, handleKeyMap, newItems, inputingItem }
 }
