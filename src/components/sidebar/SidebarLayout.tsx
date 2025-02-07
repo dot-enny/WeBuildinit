@@ -7,7 +7,7 @@ import { MobileSidebar } from './MobileSidebar'
 
 export const navigation = [
     // { name: 'AI chat', href: '/chat', icon: StarIcon },
-    { name: 'Tasks', href: '/tasks', icon: StarIcon },
+    { name: 'Lists', href: '/tasks', icon: StarIcon },
 ]
 
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {
@@ -27,10 +27,10 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
 const ContentArea = ({ children, setSidebarOpen }: { children: React.ReactNode, setSidebarOpen: (val: boolean) => void }) => {
     return (
         <>
-            <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-gray-400 lg:hidden fixed top-6 left-5 rounded-full border border-black/40 bg-[#2F2F2F]">
+            <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-gray-400 lg:hidden fixed top-6 left-5 rounded-full border border-black/40 bg-[#2F2F2F] z-10">
                 <span className="sr-only">Open sidebar</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
-                    <path fill-rule="evenodd" d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                    <path fillRule="evenodd" d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
                 </svg>
             </button>
 

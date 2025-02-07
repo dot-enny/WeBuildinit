@@ -1,3 +1,5 @@
+// import { jbc } from "@reown/appkit/networks";
+// import { useAppStateStore } from "../lib/AppStateStore";
 import { Benefits } from "./landing/Benefits";
 import ConnectWallet from "./landing/ConnectWallet";
 import { Faq } from "./landing/Faq";
@@ -5,6 +7,8 @@ import { Footer } from "./landing/Footer";
 import { Hero } from "./landing/Hero";
 
 const Landing = () => {
+
+  // const { walletAddress } = useAppStateStore();
 
   return (
     <div className="bg-[#040404]">
@@ -14,8 +18,10 @@ const Landing = () => {
         <Faq />
         <Footer />
       </div>
-
-      <ConnectWallet />
+      {/* {
+        walletAddress === '' && */}
+        <ConnectWallet />
+      {/* } */}
     </div>
   );
 };

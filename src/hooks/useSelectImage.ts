@@ -1,9 +1,5 @@
 import { useState } from "react";
-
-interface Avatar {
-    file: File | null;
-    url: string;
-}
+import { Avatar } from "../types/types";
 
 export const useSelectImage = () => {
     const [image, setAvatar] = useState<Avatar>({
