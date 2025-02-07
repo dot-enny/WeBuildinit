@@ -17,7 +17,7 @@ export const useCreateListWithText = () => {
             const encodedWalletAddress = encodeURIComponent(walletAddress);
             setIsLoading(true); // Set loading state to true
 
-            const response = await axios.post(
+            await axios.post(
                 `${BASE_URL}users/${encodedWalletAddress}/lists/`,
                 {
                     image: '', // Send ONLY the Base64 data part
