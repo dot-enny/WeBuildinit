@@ -20,19 +20,25 @@ export const useUploadImage = () => {
             reader.onloadend = async () => {
                 const base64String = reader.result as string;
 
+                const body = {
+                    img: base64String.split(',')[1], // Send ONLY the Base64 data part
+                    from_image: true,
+                    name: image.file?.name,
+                    suggestions: "" // Include suggestions if needed
+                };
+
+                console.log(body);
+
                 try {
                     const encodedWalletAddress = encodeURIComponent(walletAddress);
                     setIsUploading(true); // Set loading state to true
                     setUploadError(null); // Clear previous errors
 
+                 
+
                     const response = await axios.post(
                         `${BASE_URL}users/${encodedWalletAddress}/lists/`,
-                        {
-                            image: base64String.split(',')[1], // Send ONLY the Base64 data part
-                            from_image: true,
-                            name: image.file?.name,
-                            suggestions: "" // Include suggestions if needed
-                        },
+                       body,
                         {
                             headers: {
                                 'Content-Type': 'application/json' // Important: application/json
@@ -49,6 +55,8 @@ export const useUploadImage = () => {
 
                 } catch (error) {
                     reject(error);
+                } finally {
+                    setIsUploading(false)
                 }
             };
 
