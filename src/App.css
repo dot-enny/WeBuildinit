@@ -4,77 +4,100 @@
 
 
 :root {
-    --color-shadow-light: #D6D6D640;
-    --color-text-light: #B8B8B8;
-    --color-text-dark: #222222;
-    --color-border-primary: #7FD6E1;
-    --color-shadow-inset: #7FD6E124;
-    --color-shadow-primary: #7FD6E114;
-    --color-text-primary: #292929;
-    --color-text-secondary: #757575;
-    --color-border-light: #F2F2F2;
-    --color-text-heading: #4E4E4E;
-    --color-text-muted: #9E9E9E;
-    --color-text-subheading: #5D5D5D;
-    --color-shadow-box: #6767DA14;
-    --color-text-gray: #939393;
+  --color-shadow-light: #D6D6D640;
+  --color-text-light: #B8B8B8;
+  --color-text-dark: #222222;
+  --color-border-primary: #7FD6E1;
+  --color-shadow-inset: #7FD6E124;
+  --color-shadow-primary: #7FD6E114;
+  --color-text-primary: #292929;
+  --color-text-secondary: #757575;
+  --color-border-light: #F2F2F2;
+  --color-text-heading: #4E4E4E;
+  --color-text-muted: #9E9E9E;
+  --color-text-subheading: #5D5D5D;
+  --color-shadow-box: #6767DA14;
+  --color-text-gray: #939393;
 }
 
 * {
-    scrollbar-width: thin;
-    scrollbar-color: #222222 transparent;
+  scrollbar-width: thin;
+  scrollbar-color: #222222 transparent;
 }
+
 html {
-    --satoshi: 'Satoshi', sans-serif;
-    --dm-sans: 'DM Sans', sans-serif;
-    scroll-behavior: smooth;
+  --satoshi: 'Satoshi', sans-serif;
+  --dm-sans: 'DM Sans', sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
-    font-family: var(--satoshi);
+  font-family: var(--satoshi);
 }
 
 .satoshi {
-    font-family: var(--satoshi);
+  font-family: var(--satoshi);
 }
 
 .dm-sans {
-    font-family: var(--dm-sans);
+  font-family: var(--dm-sans);
 }
 
 #hero {
-    background: url('/assets/bg/gradient-bg-hero.svg') no-repeat;
+  background: url('/assets/bg/gradient-bg-hero.svg') no-repeat;
 }
 
 @media (min-width: 1536px) {
-    #hero {
-        background: url('/assets/bg/gradient-bg-hero.svg') center/cover no-repeat;
-    }
+  #hero {
+    background: url('/assets/bg/gradient-bg-hero.svg') center/cover no-repeat;
+  }
 }
 
 .active-route-indicator::after {
-    content: '';
-    background-color: #7FD6E1;
-    position: absolute;
-    width: 2px;
-    border-radius: 10px;
-    right: -24px;
-    inset-block: 9px;
-    content: '';
+  content: '';
+  background-color: #7FD6E1;
+  position: absolute;
+  width: 2px;
+  border-radius: 10px;
+  right: -24px;
+  inset-block: 9px;
+  content: '';
 }
 
 .pink-box-shadow {
-    box-shadow: inset 0px -4px 4px rgba(212, 165, 197, 0.5);
+  box-shadow: inset 0px -4px 4px rgba(212, 165, 197, 0.5);
 }
 
 .tasks-bg {
-    background: url('/assets/bg/tasks-page-bg.svg') no-repeat;
-    background-position: bottom -80vmin left 100%;
-    background-size: cover;
+  background: url('/assets/bg/tasks-page-bg.svg') no-repeat;
+  background-position: bottom -80vmin left 100%;
+  background-size: cover;
 }
 
 @media (max-width: 767px) {
-    .tasks-bg {
-        background-position: bottom -500px left 100%;
-    }
+  .tasks-bg {
+    background-position: bottom -500px left 100%;
+  }
+}
+
+
+.letter1 {
+  animation: logo1 7s ease-out infinite;
+}
+
+@keyframes logo1 {
+  5% {
+    opacity: 0;
+    translate: 0 -5px;
+  }
+
+  25% {
+    opacity: 0;
+    translate: 0 5px;
+  }
+
+  30% {
+    opacity: 1;
+    translate: 0 0;
+  }
 }

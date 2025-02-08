@@ -37,7 +37,7 @@ export const Tasks = () => {
                 (!isLoading && noList) &&
                 <div className="w-fit h-fit m-auto text-2xl text-white text-center flex flex-col items-center gap-y-4">
                     <span>No Lists Yet</span>
-                    <button onClick={handleOpenSelectingModal} className="underline">Add list +</button>
+                    <button onClick={handleOpenSelectingModal} className="underline cursor-pointer">Add list +</button>
                 </div>
             }
 
