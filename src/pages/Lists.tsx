@@ -1,35 +1,47 @@
-import { CreateTask } from "../components/chat/CreateTask"
-import { useAppStateStore } from "../lib/AppStateStore";
-import { useGetTasks } from "../hooks/useGetTasks";
-import { Spinner } from "../components/ui/Spinner";
-import Modal from "../components/ui/Modal";
-import { DialogTitle } from "@headlessui/react";
-import { useListsPage } from "../hooks/lists/useListsPage";
 import { ListsPageHeader } from "../components/lists/ListsPageHeader";
+import { ConfirmDelete } from "../components/lists/modals/ConfirmDelete";
+import { CreateListWithImage } from "../components/lists/modals/create/CreateListWithImage";
+import { CreateListWithText } from "../components/lists/modals/create/CreateListWithText";
+import { SelectMode } from "../components/lists/modals/create/SelectMode";
 import { TodoLists } from "../components/lists/TodoLists";
-import { useCreateListWithText } from "../hooks/lists/useCreateListWithText";
+import { Spinner } from "../components/ui/Spinner";
+import { useListsPage } from "../hooks/lists/useListsPage";
+import { useGetAllLists } from "../hooks/useGetAllLists";
+import { useAppStateStore } from "../lib/AppStateStore";
 
-export const Tasks = () => {
+export const Lists = () => {
 
     const { listObjects, isLoadingLists } = useAppStateStore();
     const { imageOpen, textOpen, deleteOpen, selecting, handleOpenSelectingModal, handleOpenDeleteModal, handleCloseSelectingModal, handleImageModal, handleTextModal, handleSelect, handleCloseDeleteModal, handleDelete, isDeleting } = useListsPage();
-    const { tasks = [], isLoading } = useGetTasks();
+    const { tasks = [], isLoading, getAllLists } = useGetAllLists();
     const noList = (listObjects.length === 0) && (tasks.length === 0);
+
+    const doHandleDelete = async (option: string) => {
+        await handleDelete(option);
+        if(option === 'yes') {
+            getAllLists(true);
+        }
+    }
+
+    // useEffect(() => {
+    //     getTasks();
+    // }, [])
 
     return (
         <div className="h-full flex flex-col pb-4 md:pb-10 pt-5 tasks-bg relative pl-5 md:pl-8">
 
             <ListsPageHeader isLoading={isLoading || isLoadingLists} />
-            <button className={`text-red-300 text-lg mt-2 text-start ml- transtiion duration-500 ${(!(isLoading || isLoadingLists) && !noList) ? 'opacity-100': 'opacity-0'}`} onClick={handleOpenDeleteModal}>Delete lists</button>
+            <button className={`text-red-300 text-lg mt-2 text-start ml- transtiion duration-500 ml-auto cursor-pointer mr-4 ${(!(isLoading || isLoadingLists) && !noList) ? 'opacity-100' : 'opacity-0'}`} onClick={handleOpenDeleteModal}>Clear lists</button>
 
-            <div className="overflow-y-auto pt-5">
+            {/* RENDER SPINNER OR LISTS */}
+        <div className="overflow-y-auto pt-5">
                 {
                     (isLoading || isLoadingLists) ?
                         <div className="absolute inset-0">
                             <Spinner className="size-10" />
                         </div>
                         :
-                        <TodoLists lists={listObjects as any} />
+                        <TodoLists lists={listObjects} getAllLists={getAllLists} />
                 }
             </div>
 
@@ -47,92 +59,19 @@ export const Tasks = () => {
             </button>
 
             <SelectMode open={selecting} setOpen={handleCloseSelectingModal} handleSelect={handleSelect} />
-            <CreateTaskWithText open={textOpen} setOpen={handleTextModal} />
-            <CreateTask open={imageOpen} setOpen={handleImageModal} />
-            <ConfirmDelete open={deleteOpen} setOpen={handleCloseDeleteModal} handleDelete={handleDelete} isDeleting={isDeleting} />
+            <CreateListWithText open={textOpen} setOpen={handleTextModal} getAllLists={getAllLists} />
+            <CreateListWithImage open={imageOpen} setOpen={handleImageModal} getAllLists={getAllLists} />
+            <ConfirmDelete open={deleteOpen} setOpen={handleCloseDeleteModal} handleDelete={doHandleDelete} isDeleting={isDeleting} />
         </div >
     )
 }
 
 
 
-interface ConfirmDeleteProps {
-    open: boolean;
-    setOpen: () => void;
-    handleDelete: (type: string) => void;
-    isDeleting: boolean
-}
 
-const ConfirmDelete = ({ open, setOpen, handleDelete, isDeleting }: ConfirmDeleteProps) => {
-    return (
-        <Modal open={open} setOpen={setOpen} hasBackdrop={false}>
-            <DialogTitle as="h3" className="text-[1.25rem] text-white mb-14 relative text-center">
-                {!isDeleting ?
-                    'This action deletes all lists, are you sure ?' :
-                    <div className="mx-auto flex gap-x-4 w-fit"><span>Deleting all lists ...</span> <Spinner className="static" /></div>
-                }
-            </DialogTitle>
-            <div className="text-white grid grid-cols-2 gap-x-4">
-                <button disabled={isDeleting} className="border border-[#2F2F2F] rounded-lg py-3 bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => handleDelete('yes')}>Yes</button>
-                <button disabled={isDeleting} className="border border-[#2F2F2F] rounded-lg py-3 disabled:opacity-60 disabled:cursor-not-allowed" onClick={() => handleDelete('no')}>No</button>
-            </div>
-        </Modal>
-    );
-};
 
-interface SelectingModalProps {
-    open: boolean;
-    setOpen: () => void;
-    handleSelect: (type: string) => void;
-}
 
-const SelectMode = ({ open, setOpen, handleSelect }: SelectingModalProps) => {
-    return (
-        <Modal open={open} setOpen={setOpen} hasBackdrop={false}>
-            <DialogTitle as="h3" className="text-[1.25rem] text-white mb-5">
-                How would you like to create your list?
-            </DialogTitle>
-            <div className="text-white flex flex-col gap-y-4">
-                <button className="cursor-pointer border border-[#2F2F2F] rounded-lg py-5" onClick={() => handleSelect('image')}>With Image</button>
-                <button className="cursor-pointer border border-[#2F2F2F] rounded-lg py-5" onClick={() => handleSelect('text')}>With Text</button>
-            </div>
-        </Modal>
-    );
-};
 
-interface TextModeProps {
-    open: boolean;
-    setOpen: () => void;
-}
-
-const CreateTaskWithText = ({ open, setOpen }: TextModeProps) => {
-
-    const { createTask, isLoading } = useCreateListWithText();
-    const handleCreateTask = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.target as HTMLFormElement);
-        const { name, suggestions } = Object.fromEntries(formData);
-        console.log({ name, suggestions });
-        await createTask({ name: name as string, suggestions: suggestions as string });
-        setOpen();
-    }
-
-    return (
-        <Modal open={open} setOpen={setOpen} hasBackdrop={false}>
-            <DialogTitle as="h3" className="text-[1.25rem] text-white mb-5">
-                Create list with text
-            </DialogTitle>
-            <form onSubmit={handleCreateTask} className="text-white flex flex-col gap-y-4">
-                <input type="text" name="name" placeholder="Enter list name" className="bg-[#333131] border border-[#2F2F2F] rounded-lg py-5 px-3" />
-                <input type="text" name="suggestions" placeholder="Enter suggestions comma separated" className="bg-[#333131] border border-[#2F2F2F] rounded-lg py-5 px-3" />
-                <button disabled={isLoading} className="cursor-pointer border border-[#2F2F2F] rounded-lg py-5 relative disabled:opacity-60 disabled:cursor-not-allowed">
-                    <span className={`${isLoading ? 'invisible' : ''}`}>Send</span>
-                    <Spinner className={`${!isLoading ? 'invisible' : 'size-2'}`} />
-                </button>
-            </form>
-        </Modal>
-    )
-}
 
 
 

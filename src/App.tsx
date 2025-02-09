@@ -3,8 +3,9 @@ import Landing from './components/Landing';
 import "./App.css";
 import { ConnectWalletProvider } from './context/ConnectWalletContext';
 import SidebarLayout from './components/sidebar/SidebarLayout';
-import { Tasks } from './pages/Tasks';
-
+import { Lists } from './pages/Lists';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 // import { createAppKit } from '@reown/appkit/react'
 // import { SolanaAdapter } from '@reown/appkit-adapter-solana/react'
 // import { solana, solanaTestnet, solanaDevnet } from '@reown/appkit/networks'
@@ -49,6 +50,8 @@ if(walletAddress) {
 //   })
 // }
 
+const CLIENT_ID = "917487239303-2eatf7absos4pret7f7ukaj4mvgbgf22.apps.googleusercontent.com"
+
 const queryClient = new QueryClient()
 
 function App() {
@@ -56,38 +59,41 @@ function App() {
   // const { walletAddress } = useAppStateStore();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <div>
-                <ConnectWalletProvider>
-                  {/* {walletAddress ? ( // Conditionally render based on walletAddress
-                    <Navigate to="/tasks" replace={true} /> // Redirect if walletAddress exists
-                  ) : ( */}
-                    <Landing /> // Render Landing component if walletAddress is null/undefined
-                  {/* )} */}
-                </ConnectWalletProvider>
-              </div>
-            }
-          />
-          <Route
-            path="/tasks"
-            element={
-              <div>
-                <SidebarLayout>
-                  <Tasks />
-                </SidebarLayout>
-              </div>
-            }
-          />
-          {/* New page */}
+    <GoogleOAuthProvider clientId={CLIENT_ID}>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div>
+                  <ConnectWalletProvider>
+                    {/* {walletAddress ? ( // Conditionally render based on walletAddress
+                      <Navigate to="/tasks" replace={true} /> // Redirect if walletAddress exists
+                    ) : ( */}
+                      <Landing /> // Render Landing component if walletAddress is null/undefined
+                    {/* )} */}
+                  </ConnectWalletProvider>
+                </div>
+              }
+            />
+            <Route
+              path="/tasks"
+              element={
+                <div>
+                  <SidebarLayout>
+                    <Lists />
+                  </SidebarLayout>
+                </div>
+              }
+            />
+            {/* New page */}
 
-        </Routes>
-      </Router>
-    </QueryClientProvider>
+          </Routes>
+        </Router>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
   );
 }
 

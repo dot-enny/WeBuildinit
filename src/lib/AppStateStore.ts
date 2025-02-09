@@ -12,6 +12,8 @@ interface AppStateStore {
     setListObjects: (val: any[]) => void;
     isLoadingLists: boolean;
     setIsLoadingLists: (val: boolean) => void;
+    reloadLists: boolean;
+    setReloadLists: (val: boolean) => void;
 }
 
 export const useAppStateStore = create<AppStateStore>()(
@@ -26,7 +28,9 @@ export const useAppStateStore = create<AppStateStore>()(
             listObjects: [],
             setListObjects: (val: any) => set({ listObjects: val }),
             isLoadingLists: false,
-            setIsLoadingLists: (val: boolean) => set({ isLoadingLists: val })
+            setIsLoadingLists: (val: boolean) => set({ isLoadingLists: val }),
+            reloadLists: true,
+            setReloadLists: (val: boolean) => set({ reloadLists: val }),
         }),
         {
             name: 'walletAddressState',

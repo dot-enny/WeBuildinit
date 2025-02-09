@@ -1,6 +1,6 @@
 import { TodoList } from "./todo-list/TodoList";
 
-export const TodoLists = ({ lists }: { lists: any[] }) => {
+export const TodoLists = ({ lists, getAllLists }: { lists: any[], getAllLists: () => void }) => {
     return (
         <div className="pl- flex flex-col gap-y-3">
             {/* <span className="text-white text-lg">Job Interview</span> */}
@@ -8,7 +8,7 @@ export const TodoLists = ({ lists }: { lists: any[] }) => {
                 {lists &&
                     lists.map((list) => (
                         <div key={list.id}>
-                            <TodoList list={list} />
+                            <TodoList list={list} getAllLists={getAllLists} />
                         </div>
                     ))
                 }
