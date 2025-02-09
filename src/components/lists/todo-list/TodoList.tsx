@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { StarIcon } from "../../../assets/icons/StarIcon";
 import { useGetSmartSuggestions } from "../../../hooks/lists/todo-lists/useGetSmartSuggestions";
 import { useGetListItems } from "../../../hooks/lists/useGetListItems";
 import { useTodoList } from "../../../hooks/lists/useTodoList";
 import { TodoItem } from "./TodoItem";
-import { TodoListItems } from "./TodoListItems";
+import { TodoListIdentifier } from "./TodoListIdentifier";
+import { classNames } from "../../../utils/helpers";
 
-export const TodoList = ({ list }: { list: any }) => {
-    const { listItems, getListItems, setListItems, isLoading } = useGetListItems();
+
+export const TodoList = ({ list, getAllLists }: { list: any, getAllLists: () => void }) => {
+    const { getListItems, setListItems, isLoading } = useGetListItems();
     const { isAddingItem, handleAddItem, handleInputChange, handleSaveItems, handleShiftEnter, handleNewInput, newItems, inputingItem } = useTodoList(list.id);
     const { getSmartSuggestions, isSuggesting, smartSuggestions } = useGetSmartSuggestions();
 
@@ -29,52 +32,65 @@ export const TodoList = ({ list }: { list: any }) => {
         getSmartSuggestions(list.id);
     }
 
+    const [isShowingItems, setIsShowingItems] = useState(false);
+
+    const handleSetIsShowingItems = () => {
+        setIsShowingItems(prev => !prev);
+    }
+
     return (
-        <div className="">
-            <TodoListItems list={list} getListItems={getListItems} isLoading={isLoading} />
-            {listItems && (
-                <div className="grid">
-                    <button className="ml-auto p-4 cursor-pointer text-white" onClick={handleSmartSuggest}>
-                        {isSuggesting ?
-                            <div className="logo1 text-white flex gap-x-[2px]">
-                                {'suggesting...'.split('').map((letter, index) => (
-                                    <div key={index} className="letter1" style={{ animationDelay: `${index * 0.15}s` }}>
-                                        {letter}
+        <div className="bg-[#1F1F1F] rounded-lg border border-[#323232] p-4">
+            <TodoListIdentifier list={list} getListItems={getListItems} isLoading={isLoading} isShowingItems={isShowingItems} setIsShowingItems={handleSetIsShowingItems} getAllLists={getAllLists} />
+            {/* {isShowingItems && ( */}
+            <div className={classNames('grid transition-[grid-template-rows_500ms]', isShowingItems ? 'grid-rows-[1fr] py-6' : 'grid-rows-[0fr]')}>
+                <div className="overflow-hidden">
+                    <div className="grid bg-[#1D1D1D] border border-[#34383A] rounded-lg p-3">
+                        {
+                            (list.items.length > 0) &&
+                            <button className="ml-auto p-4 cursor-pointer text-white" onClick={handleSmartSuggest}>
+                                {isSuggesting ?
+                                    <div className="logo1 text-white flex gap-x-[2px]">
+                                        {'suggesting...'.split('').map((letter, index) => (
+                                            <div key={index} className="letter1" style={{ animationDelay: `${index * 0.15}s` }}>
+                                                {letter}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                            :
-                            <div className="flex items-center gap-x-1">
-                                <span>get smart suggestions</span>
-                                <StarIcon outline />
-                            </div>
+                                    :
+                                    <div className="flex items-center gap-x-2 text-[#898989]">
+                                        <span>Get smart suggestion</span>
+                                        <StarIcon outline />
+                                    </div>
+                                }
+                            </button>
                         }
-                    </button>
-                    <p className={`text-white max-w-70ch transition duration-500 ${smartSuggestions ? 'opacity-100' : 'opacity-0'}`}>{smartSuggestions}</p>
-                    <div className="text-white w-full">
-                        {listItems.items.map((task: any) => (
-                            <TodoItem key={task.id} task={task} listItems={listItems} setListItems={setListItems} />
-                        ))}
-                        {newItems.map((item, index) => (
-                            <NewItemInput
-                                key={index}
-                                item={item}
-                                index={index}
-                                newItems={newItems}
-                                handleInputChange={handleInputChange}
-                                handleKeyMap={handleKeyMap}
-                                handleNewInput={handleNewInput}
+                        <p className={`text-white max-w-70ch transition duration-1000 ${smartSuggestions ? 'opacity-100' : 'opacity-0'}`}>{smartSuggestions}</p>
+                        <div className="text-white w-full">
+                            {list.items.map((task: any) => (
+                                <TodoItem key={task.id} task={task} listItems={list} setListItems={setListItems} />
+                            ))}
+                            {newItems.map((item, index) => (
+                                <NewItemInput
+                                    key={index}
+                                    item={item}
+                                    index={index}
+                                    newItems={newItems}
+                                    handleInputChange={handleInputChange}
+                                    handleKeyMap={handleKeyMap}
+                                    handleNewInput={handleNewInput}
+                                />
+                            ))}
+                            <ActionButtons
+                                handleAddItem={handleAddItem}
+                                doSaveItems={doSaveItems}
+                                inputingItem={inputingItem}
+                                isAddingItem={isAddingItem}
                             />
-                        ))}
-                        <ActionButtons
-                            handleAddItem={handleAddItem}
-                            doSaveItems={doSaveItems}
-                            inputingItem={inputingItem}
-                            isAddingItem={isAddingItem}
-                        />
+                        </div>
                     </div>
                 </div>
-            )}
+            </div>
+            {/* )} */}
         </div>
     );
 };
@@ -99,10 +115,10 @@ const NewItemInput = ({ item, index, newItems, handleInputChange, handleKeyMap, 
 );
 
 const ActionButtons = ({ handleAddItem, doSaveItems, inputingItem, isAddingItem }: any) => (
-    <div className="flex gap-x-3 ml-6 my-5">
-        <button className="text-sm flex items-center gap-x-1 cursor-pointer" onClick={handleAddItem}>
+    <div className="flex gap-x-3 my-5">
+        <button className="bg-[#7FD6E1] text-[#222222] text-xs flex items-center gap-x-1 cursor-pointer p-1 rounded" onClick={handleAddItem}>
             Add item
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-3">
                 <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
             </svg>
         </button>

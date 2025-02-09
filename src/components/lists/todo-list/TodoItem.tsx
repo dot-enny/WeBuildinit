@@ -1,14 +1,16 @@
 import { useCheckTodoItem } from "../../../hooks/lists/todo-lists/useCheckTodoItem";
 import { Spinner } from "../../ui/Spinner";
 import { useDeleteTodoItem } from "../../../hooks/lists/todo-lists/useDeleteTodoItem";
+// import { Checkbox } from "../../ui/Checkbox";
 
 export const TodoItem = ({ task, listItems, setListItems }: { task: any, listItems: any, setListItems: (items: any) => void }) => {
 
-    const { checkItem, checkError, isChecking } = useCheckTodoItem();
+    const { checkItem, isChecking } = useCheckTodoItem();
     const { deleteItem, isDeleting } = useDeleteTodoItem();
 
     const handleCheckItem = async () => {
         // store previous state for rollback
+        console.log(listItems)
         const prevTasks = listItems.items;
         const updatedTasks = prevTasks.map((t: any) =>
             t.id === task.id ? { ...t, checked: !t.checked } : t
@@ -36,11 +38,11 @@ export const TodoItem = ({ task, listItems, setListItems }: { task: any, listIte
 
 
     return (
-        <div key={task.id} className="bg- flex items-center p-4 rounded">
-            {
+        <div key={task.id} className="border border-[#34383A] flex items-center p-4 rounded my-3">
+            {/* {
                 checkError &&
                 <span className="text-xs text-red-500">failed</span>
-            }
+            } */}
             <div className="relative">
                 <Spinner className={`w-[12px] h-[12px] inset-0 ${!isChecking ? 'invisible' : ''}`} />
                 <input
@@ -50,6 +52,7 @@ export const TodoItem = ({ task, listItems, setListItems }: { task: any, listIte
                     onChange={handleCheckItem}
                     disabled={isChecking}
                 />
+                {/* <Checkbox checked={task.checked} onChange={handleCheckItem} isChecking={isChecking} /> */}
             </div>
             <p className="text-[#CFCFCF] ml-2 mr-3">{task.label}</p>
             <button onClick={handleDeleteItem} className="relative ml-auto">

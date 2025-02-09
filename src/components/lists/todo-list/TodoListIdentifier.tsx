@@ -1,31 +1,58 @@
 import { useDeleteList } from "../../../hooks/lists/useDeleteList";
 import { Spinner } from "../../ui/Spinner";
+import { classNames } from "../../../utils/helpers";
+import { useAppStateStore } from "../../../lib/AppStateStore";
 
 type TodoListItemProps = {
     list: any;
     getListItems: (id: any) => void;
     isLoading: boolean;
+    isShowingItems: boolean;
+    setIsShowingItems: () => void;
+    getAllLists: () => void;
 };
 
-export const TodoListItems = ({ list, getListItems, isLoading }: TodoListItemProps) => {
+export const TodoListIdentifier = ({ list, isLoading, isShowingItems, setIsShowingItems, getAllLists }: TodoListItemProps) => {
     const { deleteList, isDeleting } = useDeleteList();
+    const { listObjects, setListObjects, setReloadLists } = useAppStateStore();
+    const originalListObjects = [ ...listObjects ];
+
+    const handleDeleteList = async () => {
+        // Remove the list with list.id from listObjects
+        const updatedLists = listObjects.filter((item: any) => item.id !== list.id);
+        setReloadLists(false);
+        setListObjects(updatedLists);
+        try {
+            await deleteList(list.id);
+        } catch {
+            // Revert listObjects back to its original state in case of an error
+            setListObjects(originalListObjects);
+            // alert("An error occurred while deleting the list. Please try again.");
+            console.log("An error occurred while deleting the list. Please try again.");
+            setReloadLists(true);
+        }
+        getAllLists();
+    }
 
     return (
-        <li className="bg-[#393B3C] flex items-center p-4 rounded">
-            <p className="text-sm text-[#CFCFCF] ml-2 mr-3">{list.name}</p>
+        <li className="flex items-center">
+            <p className="text-white ml-2 mr-3">{list.name}</p>
+            <p className="text-white ml-2 mr-3">{list.suggestion}</p>
             <div className="ml-auto relative">
                 <div className="text-white grid grid-cols-2 items-center gap-x-3">
                     <span className="sr-only">expand list</span>
-                    <ExpandButton onClick={() => getListItems(list.id)} isLoading={isLoading} />
-                    <DeleteButton onClick={() => deleteList(list.id)} isDeleting={isDeleting} />
+                    {/* <ExpandButton onClick={() => getListItems(list.id)} isLoading={isLoading} />
+                    <DeleteButton onClick={() => deleteList(list.id)} isDeleting={isDeleting} /> */}
+                    <ExpandButton onClick={setIsShowingItems} isLoading={isLoading} isShowingItems={isShowingItems} />
+                    <DeleteButton onClick={handleDeleteList} isDeleting={isDeleting} />
                 </div>
             </div>
         </li>
     );
 };
 
-const ExpandButton = ({ onClick, isLoading }: { onClick: () => void; isLoading: boolean }) => (
-    <button onClick={onClick} className="relative cursor-pointer" disabled={isLoading}>
+const ExpandButton = ({ onClick, isLoading, isShowingItems }: { onClick: () => void; isLoading: boolean, isShowingItems: boolean }) => (
+    <button onClick={onClick} className={classNames('relative cursor-pointer transition', isShowingItems ? 'rotate-180' : '')} disabled={isLoading}>
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

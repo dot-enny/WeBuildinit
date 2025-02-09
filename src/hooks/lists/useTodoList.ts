@@ -30,6 +30,9 @@ export const useTodoList = (listId: string) => {
     const handleNewInput = (index: number) => {
         const updatedItems = newItems.filter((_, i) => i !== index);
         setNewItems(updatedItems);
+        if(newItems.length < 1) {
+            setInputingItem(false);
+        }
     }
 
     const handleShiftEnter = (index: number) => {

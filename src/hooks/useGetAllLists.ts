@@ -2,15 +2,22 @@ import { useEffect, useState } from "react";
 import { BASE_URL } from "../lib/services";
 import { useAppStateStore } from "../lib/AppStateStore";
 
-export const useGetTasks = () => {
-    const { walletAddress, listObjects, setListObjects, setIsLoadingLists } = useAppStateStore();
+export const useGetAllLists = () => {
+    const { walletAddress, listObjects, setListObjects, setIsLoadingLists, reloadLists } = useAppStateStore();
 
-    const [tasks, setTasks] = useState();
+    const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const getTasks = async () => {
-        setIsLoading(true);
-        setIsLoadingLists(true);
+    const getAllLists = async (reload=false, optimisticData=null) => {
+        if(optimisticData != null) {
+            setTasks(optimisticData);
+            setListObjects(optimisticData);
+        }
+        if(reload)  {
+            setIsLoading(true);
+            setIsLoadingLists(true);
+            console.log('reloading lists');
+        }
         try {
             const encodedWalletAddress = encodeURIComponent(walletAddress);
             const response = await fetch(`${BASE_URL}users/${encodedWalletAddress}/lists/`, {
@@ -22,9 +29,12 @@ export const useGetTasks = () => {
                 credentials: 'include'
             });
             const data = await response.json();
+            
             setTasks(data);
+            console.log('list objects before lists fetched', listObjects);
             setListObjects(data)
             console.log('list fetched', data);
+            console.log('list objects updated after lists fetched', listObjects);
         } catch (err) {
             console.log('error fetching lists', err);
         }
@@ -33,13 +43,15 @@ export const useGetTasks = () => {
     };
 
     useEffect(() => {
-        if(listObjects.length === 0 ) {
-            getTasks();
+        if(listObjects.length === 0 && reloadLists) {
+            getAllLists(true);
+            console.log('list objects < 0')
         }
-    }, [listObjects.length])
+        console.log('list objects')
+    }, [listObjects.length, reloadLists])
     // useEffect(() => {
-    //     getTasks();
+    //     getAllLists();
     // }, [])
 
-    return { getTasks, tasks, isLoading }
+    return { getAllLists, tasks, isLoading }
 }
