@@ -4,19 +4,16 @@ import { useAppStateStore } from "../../../lib/AppStateStore";
 import { useState } from "react";
 
 export const useGetSmartSuggestions = () => {
-    const { walletAddress } = useAppStateStore();
+    const { user_id } = useAppStateStore();
     const [smartSuggestions, setSmartSuggestions] = useState('');
     const [isSuggesting, setIsSuggesting] = useState(false);
 
     const getSmartSuggestions = async (listId: string) => {
         setIsSuggesting(true); // Set loading state to true
         try {
-            const encodedWalletAddress = encodeURIComponent(walletAddress);
+            // const encodedWalletAddress = encodeURIComponent(walletAddress);
             const response = await axios.post(
-                `${BASE_URL}users/${encodedWalletAddress}/lists/${listId}/smart_suggestions/`,
-                // {
-                //     // Include suggestions if needed
-                // },
+                `${BASE_URL}${user_id}/lists/${listId}/smart_suggestions/`,
                 {
                     headers: {
                         'Content-Type': 'application/json' // Important: application/json

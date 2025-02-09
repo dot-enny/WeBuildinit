@@ -5,7 +5,7 @@ import { BASE_URL } from '../lib/services';
 
 export const useUploadImage = () => {
 
-    const uploadImage = async ({ image, walletAddress }: { image: Avatar, walletAddress: string }) => {
+    const uploadImage = async ({ image, user_id }: { image: Avatar, user_id: string }) => {
         return new Promise((resolve, reject) => {
             if (!image.file) {
                 reject(new Error("No image selected"));
@@ -27,10 +27,10 @@ export const useUploadImage = () => {
                 console.log(body);
 
                 try {
-                    const encodedWalletAddress = encodeURIComponent(walletAddress);
+                    // const encodedWalletAddress = encodeURIComponent(walletAddress);
 
                     const response = await axios.post(
-                        `${BASE_URL}users/${encodedWalletAddress}/lists/`,
+                        `${BASE_URL}${user_id}/lists/`,
                        body,
                         {
                             headers: {
@@ -61,7 +61,7 @@ export const useUploadImage = () => {
     };
 
     const { mutateAsync: uploadImageMutation, isPending } = useMutation({
-        mutationFn: (variables: { image: Avatar, walletAddress: string }) => uploadImage(variables), // Your upload function
+        mutationFn: (variables: { image: Avatar, user_id: string }) => uploadImage(variables), // Your upload function
         onSuccess: (data) => { // Correctly typed onSuccess
             console.log("Image uploaded successfully:", data);
         },

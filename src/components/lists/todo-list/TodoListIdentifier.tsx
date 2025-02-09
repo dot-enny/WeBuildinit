@@ -15,15 +15,17 @@ type TodoListItemProps = {
 export const TodoListIdentifier = ({ list, isLoading, isShowingItems, setIsShowingItems, getAllLists }: TodoListItemProps) => {
     const { deleteList, isDeleting } = useDeleteList();
     const { listObjects, setListObjects, setReloadLists } = useAppStateStore();
-    const originalListObjects = [ ...listObjects ];
+    const originalListObjects = [...listObjects];
 
     const handleDeleteList = async () => {
         // Remove the list with list.id from listObjects
+        console.log('delete item', listObjects)
         const updatedLists = listObjects.filter((item: any) => item.id !== list.id);
+        console.log(updatedLists)
         setReloadLists(false);
-        setListObjects(updatedLists);
         try {
             await deleteList(list.id);
+            setListObjects(updatedLists);
         } catch {
             // Revert listObjects back to its original state in case of an error
             setListObjects(originalListObjects);
@@ -36,9 +38,16 @@ export const TodoListIdentifier = ({ list, isLoading, isShowingItems, setIsShowi
 
     return (
         <li className="flex items-center">
-            <p className="text-white ml-2 mr-3">{list.name}</p>
-            <p className="text-white ml-2 mr-3">{list.suggestion}</p>
-            <div className="ml-auto relative">
+            <div className="flex items-center">
+                <p className="text-white ml-2 mr-3 flex-1 min-w-fit">name: {list.name}</p>
+                {list.suggestion.trim() &&
+                    <>
+                        <div className="bg-[#2F2F2F] h-5 w-0.5" />
+                        <p className="text-white ml-2 mr-3 line-clamp-1">suggestion: {list.suggestion}</p>
+                    </>
+                }
+            </div>
+            <div className="ml-auto relative min-w-max">
                 <div className="text-white grid grid-cols-2 items-center gap-x-3">
                     <span className="sr-only">expand list</span>
                     {/* <ExpandButton onClick={() => getListItems(list.id)} isLoading={isLoading} />

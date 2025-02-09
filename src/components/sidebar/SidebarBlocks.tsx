@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { NavigationItem } from "../../types/types";
 import { classNames } from "../../utils/helpers";
-import { useAppStateStore } from "../../lib/AppStateStore";
+// import { useAppStateStore } from "../../lib/AppStateStore";
 // import { useWallet } from "../../context/WalletContext";
 
 // 1. Logo Component
@@ -15,13 +15,14 @@ export const Logo = () => (
 export const WalletInfo = () => {
 
   // const walletAddress = useWallet();
-  const { walletAddress } = useAppStateStore();
+  // const { walletAddress } = useAppStateStore();
 
   return (
     <div className="bg-[#1F1F1F] flex gap-3 py-3 px-4 rounded-lg">
       <img alt="" src="/assets/icons/wallet.svg" />
       {/* <span className="text-[#7A7A7A]">0432616359</span> */}
-      <span className="text-[#7A7A7A]">{walletAddress.slice(0, 10) || '0432616359'}...</span>
+      {/* <span className="text-[#7A7A7A]">{walletAddress.slice(0, 10) || '0432616359'}...</span> */}
+      <span className="text-[#7A7A7A]">0432616359</span>
     </div>
   )
 };

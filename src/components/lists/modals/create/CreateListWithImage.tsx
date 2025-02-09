@@ -14,7 +14,7 @@ interface ImageModeProps {
 
 export const CreateListWithImage = ({ open, setOpen, getAllLists }: ImageModeProps) => {
 
-    const { walletAddress, listObjects, setListObjects } = useAppStateStore();
+    const { user_id, listObjects, setListObjects } = useAppStateStore();
 
     const { uploadImageMutation, isPending } = useUploadImage();
     const { image, selectImage, dragging, handleDragOver, handleDragExit, handleDrop } = useCreateListWithImage()
@@ -30,7 +30,7 @@ export const CreateListWithImage = ({ open, setOpen, getAllLists }: ImageModePro
     const handleFileUpload = async () => {
         const originalListObjects = [ ...listObjects ];
         try {
-            await uploadImageMutation({ image, walletAddress });
+            await uploadImageMutation({ image, user_id });
             const updatedLists = [...listObjects, newList];
             setListObjects(updatedLists);
             setOpen();

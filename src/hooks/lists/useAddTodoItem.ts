@@ -3,13 +3,13 @@ import { BASE_URL } from "../../lib/services";
 import axios from "axios";
 
 export const useAddTodoItem = () => {
-    const { walletAddress } = useAppStateStore();
+    const { user_id } = useAppStateStore();
 
      const addTodoItem = async (listId: string, label: string) => {
         try {
-            const encodedWalletAddress = encodeURIComponent(walletAddress);
+            // const encodedWalletAddress = encodeURIComponent(walletAddress);
             const response = await axios.post(
-                `${BASE_URL}users/${encodedWalletAddress}/lists/${listId}/items/`,
+                `${BASE_URL}${user_id}/lists/${listId}/items/`,
                 { label },
                 {
                     headers: {
