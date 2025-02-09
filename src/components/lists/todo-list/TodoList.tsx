@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StarIcon } from "../../../assets/icons/StarIcon";
 import { useGetSmartSuggestions } from "../../../hooks/lists/todo-lists/useGetSmartSuggestions";
 import { useGetListItems } from "../../../hooks/lists/useGetListItems";
@@ -9,24 +9,48 @@ import { classNames } from "../../../utils/helpers";
 
 
 export const TodoList = ({ list, getAllLists }: { list: any, getAllLists: () => void }) => {
-    const { getListItems, setListItems, isLoading } = useGetListItems();
+    const { getListItems, setListItems, listItems, isLoading } = useGetListItems();
     const { isAddingItem, handleAddItem, handleInputChange, handleSaveItems, handleShiftEnter, handleNewInput, newItems, inputingItem } = useTodoList(list.id);
     const { getSmartSuggestions, isSuggesting, smartSuggestions } = useGetSmartSuggestions();
 
+    const [updatedTasks, setUpdatedTasks] = useState(list || []);
+
     const doSaveItems = async () => {
+        // const prevTasks = [...updatedTasks.items];
+        // const optimisticTasks = [...updatedTasks.items, ...newItems];
+        // setUpdatedTasks(optimisticTasks)
+        // setListItems(optimisticTasks)
         console.log('start')
-        await handleSaveItems();
-        getListItems(list.id);
+        // setUpdatedTasks({ ...updatedTasks, items: optimisticTasks }); // Optimistic update!
+        // setListItems(optimisticTasks); // Update listItems for other components
+        try {
+            await handleSaveItems();
+            getListItems(list.id);
+        } catch(error) {
+            console.error('error adding item from todolist component', error)
+            // setUpdatedTasks(prevTasks);
+            // setListItems(prevTasks);
+        }
+        
     }
 
     const handleKeyMap = async (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             await handleSaveItems();
-            getListItems(list.id);
+            await getListItems(list.id);
+            // setUpdatedTasks(listItems);
         } else if (e.key === 'Enter' && e.shiftKey) {
             handleShiftEnter(index)
         }
     }
+    
+    
+
+    useEffect(() => {
+        if(listItems)
+            setUpdatedTasks(listItems);
+            console.log('list items', listItems)
+    }, [listItems])
 
     const handleSmartSuggest = () => {
         getSmartSuggestions(list.id);
@@ -66,8 +90,8 @@ export const TodoList = ({ list, getAllLists }: { list: any, getAllLists: () => 
                         }
                         <p className={`text-white max-w-70ch transition duration-1000 ${smartSuggestions ? 'opacity-100' : 'opacity-0'}`}>{smartSuggestions}</p>
                         <div className="text-white w-full">
-                            {list.items.map((task: any) => (
-                                <TodoItem key={task.id} task={task} listItems={list} setListItems={setListItems} />
+                            {updatedTasks.items.map((task: any) => (
+                                <TodoItem key={task.id} task={task} listItems={list} setListItems={setListItems} getListItems={getListItems} />
                             ))}
                             {newItems.map((item, index) => (
                                 <NewItemInput

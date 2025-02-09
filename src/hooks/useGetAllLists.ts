@@ -3,7 +3,7 @@ import { BASE_URL } from "../lib/services";
 import { useAppStateStore } from "../lib/AppStateStore";
 
 export const useGetAllLists = () => {
-    const { walletAddress, listObjects, setListObjects, setIsLoadingLists, reloadLists } = useAppStateStore();
+    const { user_id, listObjects, setListObjects, setIsLoadingLists, reloadLists } = useAppStateStore();
 
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -19,8 +19,8 @@ export const useGetAllLists = () => {
             console.log('reloading lists');
         }
         try {
-            const encodedWalletAddress = encodeURIComponent(walletAddress);
-            const response = await fetch(`${BASE_URL}users/${encodedWalletAddress}/lists/`, {
+            // const encodedWalletAddress = encodeURIComponent(user_id);
+            const response = await fetch(`${BASE_URL}${user_id}/lists/`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export const useGetAllLists = () => {
     };
 
     useEffect(() => {
-        if(listObjects.length === 0 && reloadLists) {
+        if((listObjects.length === 0) && reloadLists) {
             getAllLists(true);
             console.log('list objects < 0')
         }

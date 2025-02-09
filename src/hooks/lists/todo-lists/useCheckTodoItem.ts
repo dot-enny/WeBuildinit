@@ -6,14 +6,14 @@ import { useState } from "react";
 export const useCheckTodoItem = () => {
     const [checkError, setCheckError] = useState('');
     const [isChecking, setIsChecking] = useState(false);
-    const { walletAddress } = useAppStateStore();
+    const { user_id } = useAppStateStore();
 
     const checkItem = async (listId: string, itemId: string, checked: boolean) => {
         setCheckError('');
         setIsChecking(true);
         try {
-            const encodedWalletAddress = encodeURIComponent(walletAddress);
-            const response = await axios.patch(`${BASE_URL}users/${encodedWalletAddress}/lists/${listId}/checked_state/`,
+            // const encodedWalletAddress = encodeURIComponent(walletAddress);
+            const response = await axios.patch(`${BASE_URL}${user_id}/lists/${listId}/checked_state/`,
                 { item_id: itemId, checked_state: checked }
             )
             console.log('item checked', response)

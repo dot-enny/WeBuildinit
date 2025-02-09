@@ -1,5 +1,4 @@
-// export const BASE_URL = 'https://f85b-105-113-64-145.ngrok-free.app/api/';
-export const BASE_URL = 'https://c3bb-105-113-75-202.ngrok-free.app/api/';
+export const BASE_URL = 'https://ac2f-159-203-169-57.ngrok-free.app/api/';
 
 import axios from "axios";
 

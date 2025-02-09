@@ -8,23 +8,23 @@ export const useCreateListWithText = () => {
     const [isLoading, setIsLoading] = useState(false); // Local loading state
     const [error, setError] = useState<any>(null);
     // const { getTasks } = useGetTasks();
-    const { walletAddress } = useAppStateStore();
+    const { user_id } = useAppStateStore();
     
     const createListWithText = async ({ name, suggestion }: { name: string, suggestion: string }) => {
         
         console.log({ name, suggestion });
 
         try {
-            const encodedWalletAddress = encodeURIComponent(walletAddress);
+            // const encodedWalletAddress = encodeURIComponent(user_id);
             setIsLoading(true); // Set loading state to true
 
             await axios.post(
-                `${BASE_URL}users/${encodedWalletAddress}/lists/`,
+                `${BASE_URL}${user_id}/lists/`,
                 {
                     img: '',
                     from_image: false,
                     name: name,
-                    suggestion: "" // Include suggestions if needed
+                    suggestion: suggestion // Include suggestions if needed
                 },
                 {
                     headers: {

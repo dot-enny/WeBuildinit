@@ -3,15 +3,15 @@ import { BASE_URL } from "../../lib/services";
 import { useAppStateStore } from "../../lib/AppStateStore";
 
 export const useGetListItems = () => {
-    const { walletAddress } = useAppStateStore();
+    const { user_id } = useAppStateStore();
     const [listItems, setListItems] = useState<any>();
     const [isLoading, setIsLoading] = useState(false)
 
     const getListItems = async (listId: string) => {
         setIsLoading(true)
         try {
-            const encodedWalletAddress = encodeURIComponent(walletAddress);
-            const response = await fetch(`${BASE_URL}users/${encodedWalletAddress}/lists/${listId}/`, {
+            // const encodedWalletAddress = encodeURIComponent(walletAddress);
+            const response = await fetch(`${BASE_URL}${user_id}/lists/${listId}/`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -28,5 +28,5 @@ export const useGetListItems = () => {
         setIsLoading(false)
     };
 
-    return { getListItems, isLoading, listItems , setListItems}
+    return { getListItems, isLoading, listItems, setListItems}
 }

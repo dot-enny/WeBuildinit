@@ -6,14 +6,14 @@ import { useState } from "react";
 
 export const useDeleteAllLists = () => {
     const [isDeleting, setIsDeleting] = useState(false);
-    const { walletAddress } = useAppStateStore();
+    const { user_id } = useAppStateStore();
     // const { getTasks } = useGetTasks();
 
     const deleteAllLists = async () => {
         setIsDeleting(true);
         try {
-            const encodedWalletAddress = encodeURIComponent(walletAddress);
-            await axios.delete(`${BASE_URL}users/${encodedWalletAddress}/lists/`)
+            // const encodedWalletAddress = encodeURIComponent(walletAddress);
+            await axios.delete(`${BASE_URL}${user_id}/lists/`)
         } catch (error) {
             console.error('Error deleting lists', error);
             throw error; // Re-throw the error to be handled by the calling function

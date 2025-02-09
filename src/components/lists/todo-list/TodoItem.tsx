@@ -1,40 +1,52 @@
 import { useCheckTodoItem } from "../../../hooks/lists/todo-lists/useCheckTodoItem";
 import { Spinner } from "../../ui/Spinner";
 import { useDeleteTodoItem } from "../../../hooks/lists/todo-lists/useDeleteTodoItem";
-// import { Checkbox } from "../../ui/Checkbox";
+import { useEffect } from "react";
 
-export const TodoItem = ({ task, listItems, setListItems }: { task: any, listItems: any, setListItems: (items: any) => void }) => {
+export const TodoItem = ({ task, listItems, getListItems }: { task: any, listItems: any, setListItems: (items: any) => void, getListItems: (id: string) => void }) => {
 
     const { checkItem, isChecking } = useCheckTodoItem();
     const { deleteItem, isDeleting } = useDeleteTodoItem();
 
     const handleCheckItem = async () => {
         // store previous state for rollback
-        console.log(listItems)
-        const prevTasks = listItems.items;
-        const updatedTasks = prevTasks.map((t: any) =>
-            t.id === task.id ? { ...t, checked: !t.checked } : t
-        );
+        // console.log(listItems)
+        // const prevTasks = listItems.items;
+        // const updatedTasks = prevTasks.map((t: any) =>
+        //     t.id === task.id ? { ...t, checked: !t.checked } : t
+        // );
         // optimistic UI update
-        setListItems({ ...listItems, items: updatedTasks });
+        // setListItems({ ...listItems, items: updatedTasks });
         try {
             await checkItem(listItems.id, task.id, !task.checked);
+            getListItems(listItems.id);
         } catch (error) {
             console.error('Error checking item in item component', error);
             // rollback UI update
-            setListItems({ ...listItems, items: prevTasks });
+            // setListItems({ ...listItems, items: prevTasks });
         }
     }
 
     const handleDeleteItem = async () => {
+        // const prevTasks = [...listItems.items];
+        console.log(task.id)
+        console.log(listItems);
+        const updatedTasks = listItems.items.filter((t: any) => t.id !== task.id);
+        console.log(updatedTasks)
+        // setListItems({ ...listItems, items: updatedTasks });
         try {
             await deleteItem(listItems.id, task.id);
-            // const updatedTasks = listItems.items.filter((t: any) => t.id !== task.id);
-            // setListItems({ ...listItems, items: updatedTasks });
+            getListItems(listItems.id);
         } catch (error) {
-            console.error('Error deleting item in item component', error); 
+            console.error('Error deleting item in item component', error);
+            // setListItems({ ...listItems, items: prevTasks });
         }
     }
+
+    useEffect(() => {
+        const checkedStates = listItems.items.map((item: any) => { item.label, item.checked });
+        console.log(checkedStates)
+    }, [listItems])
 
 
     return (
