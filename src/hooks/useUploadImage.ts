@@ -1,14 +1,11 @@
-import { useState } from 'react';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { Avatar } from '../types/types';
 import { BASE_URL } from '../lib/services';
 
 export const useUploadImage = () => {
-    const [isUploading, setIsUploading] = useState(false); // Local loading state
-    const [uploadError, setUploadError] = useState<string | null>(null); // Store error message
 
-    const uploadImage = async ({ image, walletAddress }: { image: Avatar, walletAddress: string }) => {
+    const uploadImage = async ({ image, user_id }: { image: Avatar, user_id: string }) => {
         return new Promise((resolve, reject) => {
             if (!image.file) {
                 reject(new Error("No image selected"));
@@ -30,14 +27,10 @@ export const useUploadImage = () => {
                 console.log(body);
 
                 try {
-                    const encodedWalletAddress = encodeURIComponent(walletAddress);
-                    setIsUploading(true); // Set loading state to true
-                    setUploadError(null); // Clear previous errors
-
-                 
+                    // const encodedWalletAddress = encodeURIComponent(walletAddress);
 
                     const response = await axios.post(
-                        `${BASE_URL}users/${encodedWalletAddress}/lists/`,
+                        `${BASE_URL}${user_id}/lists/`,
                        body,
                         {
                             headers: {
@@ -55,9 +48,8 @@ export const useUploadImage = () => {
 
                 } catch (error) {
                     reject(error);
-                } finally {
-                    setIsUploading(false)
-                }
+                    throw new Error('Error creating task with image');
+                } 
             };
 
             reader.onerror = (error) => {
@@ -68,18 +60,16 @@ export const useUploadImage = () => {
         });
     };
 
-    const { mutateAsync: uploadImageMutation } = useMutation({
-        mutationFn: (variables: { image: Avatar, walletAddress: string }) => uploadImage(variables), // Your upload function
+    const { mutateAsync: uploadImageMutation, isPending } = useMutation({
+        mutationFn: (variables: { image: Avatar, user_id: string }) => uploadImage(variables), // Your upload function
         onSuccess: (data) => { // Correctly typed onSuccess
             console.log("Image uploaded successfully:", data);
-            // setOpen();
         },
         onError: (error) => { // Correctly typed onError
             console.error("Error uploading image:", error);
             alert(`Image upload failed: ${error?.message || 'An unknown error occurred'}`); // Improved error message
-            setIsUploading(false);
         }
     });
 
-    return { uploadImageMutation, isUploading, uploadError }; // Return mutation function, loading state, and error
+    return { uploadImageMutation, isPending }; // Return mutation function, loading state, and error
 };

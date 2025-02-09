@@ -1,49 +1,43 @@
-import { DialogTitle } from '@headlessui/react'
-import Modal from '../ui/Modal';
-import { useSelectImage } from '../../hooks/useSelectImage';
-import { useAppStateStore } from '../../lib/AppStateStore';
-import { useState } from 'react';
-import { useUploadImage } from '../../hooks/useUploadImage';
-import { useGetTasks } from '../../hooks/useGetTasks';
-import { Spinner } from '../ui/Spinner';
+import { DialogTitle } from '@headlessui/react';
+import { useUploadImage } from '../../../../hooks/useUploadImage';
+import { useAppStateStore } from '../../../../lib/AppStateStore';
+import Modal from '../../../ui/Modal';
+import { useCreateListWithImage } from '../../../../hooks/lists/useCreateListWithImage';
+import { Spinner } from '../../../ui/Spinner';
 
-export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => void }) => {
+interface ImageModeProps {
+    open: boolean;
+    setOpen: () => void;
+    getAllLists: () => void;
+}
 
-    const { walletAddress } = useAppStateStore();
-    const { image, selectImage, dragImage } = useSelectImage();
-    const [dragging, setDragging] = useState(false);
 
-    const { uploadImageMutation, isUploading } = useUploadImage();
-    const { getTasks } = useGetTasks();
+export const CreateListWithImage = ({ open, setOpen, getAllLists }: ImageModeProps) => {
+
+    const { user_id, listObjects, setListObjects } = useAppStateStore();
+
+    const { uploadImageMutation, isPending } = useUploadImage();
+    const { image, selectImage, dragging, handleDragOver, handleDragExit, handleDrop } = useCreateListWithImage()
+
+    const newList = {
+        id: '',
+        img: '',
+        items: [],
+        name: image.file?.name,
+        suggestion: '',
+    }
 
     const handleFileUpload = async () => {
-        await uploadImageMutation({ image, walletAddress });
-        getTasks();
-        setOpen();
-    }
-
-    interface DragEventHandlers {
-        handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
-        handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
-    }
-
-    const handleDragOver: DragEventHandlers['handleDragOver'] = (e) => {
-        e.preventDefault();
-        setDragging(true);
-    }
-
-    const handleDragExit: DragEventHandlers['handleDragOver'] = (e) => {
-        e.preventDefault();
-        setDragging(false);
-    }
-
-    const handleDrop: DragEventHandlers['handleDrop'] = (e) => {
-        e.preventDefault();
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-            dragImage(file);
-        } else {
-            alert('Please drop an image file.');
+        const originalListObjects = [ ...listObjects ];
+        try {
+            await uploadImageMutation({ image, user_id });
+            const updatedLists = [...listObjects, newList];
+            setListObjects(updatedLists);
+            setOpen();
+            getAllLists();    
+        } catch (error) {
+            console.error('error creating list with image from modal', error)
+            setListObjects(originalListObjects);
         }
     }
 
@@ -62,7 +56,7 @@ export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => vo
                     </div>
                 </div>
 
-                <div className={`px-6 py-8 mt-5 sm:mt-6 text-center flex flex-col gap-y-2 my-8 ${dragging ? 'bg-[#2B2B2B]' : 'bg-[#252525]'}`}
+                <div className={`px-6 py-8 mt-5 sm:mt-6 text-center flex flex-col gap-y-2 mt-8 ${dragging ? 'bg-[#2B2B2B]' : 'bg-[#252525]'}`}
                     onDragOver={handleDragOver}
                     onDragExit={handleDragExit}
                     onDrop={handleDrop}
@@ -80,7 +74,7 @@ export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => vo
 
                 {
                     image.file &&
-                    <div className="bg-[#2B2B2B] flex items-center gap-x-4 p-4 rounded-lg">
+                    <div className="bg-[#2B2B2B] flex items-center gap-x-4 p-4 rounded-lg mt-8">
                         <img src={image.url} alt="Profile Picture" className="w-9 h-9 rounded object-cover" />
                         <div className="flex-1 text-sm flex flex-col justify-between">
                             <span className="text-[#CFCFCF]">{image.file.name}</span>
@@ -91,8 +85,8 @@ export const CreateTask = ({ open, setOpen }: { open: boolean, setOpen: () => vo
                             </span>
                         </div>
                         <button onClick={handleFileUpload} className="cursor-pointer bg-[#4AEBFF] text-[#222222] [box-shadow:_0px_10px_16px_0px_#7FD6E129;] py-2 px-6 rounded-full relative">
-                            <span className={`${isUploading ? 'invisible' : ''}`}>Send</span> 
-                            <Spinner className={`${!isUploading ? 'invisible' : 'size-2'}`} />
+                            <span className={`${isPending ? 'invisible' : ''}`}>Send</span>
+                            <Spinner className={`${!isPending ? 'invisible' : 'size-2'}`} />
                         </button>
                     </div>
                 }

@@ -6,14 +6,15 @@ import { useState } from "react";
 export const useDeleteTodoItem = () => {
     const [deleteError, setDeleteError] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
-    const { walletAddress } = useAppStateStore();
+    const { user_id } = useAppStateStore();
 
     const deleteItem = async (listId: string, itemId: string) => {
         setIsDeleting(true);
         try {
-            const encodedWalletAddress = encodeURIComponent(walletAddress);
-            const response = await axios.delete(`${BASE_URL}users/${encodedWalletAddress}/lists/${listId}/items/${itemId}/`)
-            console.log('list deleted', response)
+            // const encodedWalletAddress = encodeURIComponent(walletAddress);
+            console.log(itemId)
+            const response = await axios.delete(`${BASE_URL}${user_id}/lists/${listId}/items/${itemId}/`)
+            console.log('list item deleted', response)
         } catch (error) {
             console.error('Error deleting list', error);
             setDeleteError(error as string);

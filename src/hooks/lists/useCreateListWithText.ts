@@ -1,29 +1,30 @@
 import { useState } from "react";
 import { useAppStateStore } from "../../lib/AppStateStore";
-import { useGetTasks } from "../useGetTasks";
+// import { useGetTasks } from "../useGetAllLists";
 import { BASE_URL } from "../../lib/services";
 import axios from "axios";
 
 export const useCreateListWithText = () => {
     const [isLoading, setIsLoading] = useState(false); // Local loading state
-    const { getTasks } = useGetTasks();
-    const { walletAddress } = useAppStateStore();
+    const [error, setError] = useState<any>(null);
+    // const { getTasks } = useGetTasks();
+    const { user_id } = useAppStateStore();
     
-    const createTask = async ({ name, suggestions }: { name: string, suggestions: string }) => {
+    const createListWithText = async ({ name, suggestion }: { name: string, suggestion: string }) => {
         
-        console.log({ name, suggestions });
+        console.log({ name, suggestion });
 
         try {
-            const encodedWalletAddress = encodeURIComponent(walletAddress);
+            // const encodedWalletAddress = encodeURIComponent(user_id);
             setIsLoading(true); // Set loading state to true
 
             await axios.post(
-                `${BASE_URL}users/${encodedWalletAddress}/lists/`,
+                `${BASE_URL}${user_id}/lists/`,
                 {
-                    image: '', // Send ONLY the Base64 data part
+                    img: '',
                     from_image: false,
                     name: name,
-                    suggestions: "" // Include suggestions if needed
+                    suggestion: suggestion // Include suggestions if needed
                 },
                 {
                     headers: {
@@ -31,12 +32,15 @@ export const useCreateListWithText = () => {
                     }
                 }
             );
-            getTasks();
+            // getTasks();
         } catch (error) {
-            console.log('error createing task with text', error)
+            setError(error);
+            console.log('error creating task with text', error);
+            throw new Error('Error creating task with text');
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false); // Set loading
     }
 
-    return { createTask, isLoading }
+    return { createListWithText, isLoading, error }
 }

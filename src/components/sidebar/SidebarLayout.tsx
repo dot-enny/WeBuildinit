@@ -7,7 +7,7 @@ import { MobileSidebar } from './MobileSidebar'
 
 export const navigation = [
     // { name: 'AI chat', href: '/chat', icon: StarIcon },
-    { name: 'Lists', href: '/tasks', icon: StarIcon },
+    { name: 'Lists', href: '/lists', icon: StarIcon },
 ]
 
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {

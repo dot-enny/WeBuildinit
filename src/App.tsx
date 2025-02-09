@@ -1,15 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './components/Landing';
 import "./App.css";
 import { ConnectWalletProvider } from './context/ConnectWalletContext';
 import SidebarLayout from './components/sidebar/SidebarLayout';
-import { Tasks } from './pages/Tasks';
-
+import { Lists } from './pages/Lists';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 // import { createAppKit } from '@reown/appkit/react'
 // import { SolanaAdapter } from '@reown/appkit-adapter-solana/react'
 // import { solana, solanaTestnet, solanaDevnet } from '@reown/appkit/networks'
 // import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useAppStateStore } from './lib/AppStateStore';
 // import { useAppStateStore } from './lib/AppStateStore';
 // import { useEffect } from 'react';
 
@@ -31,12 +33,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // }
 
 // 3. Create modal
-const walletAddress = sessionStorage.getItem('walletAddress');
-if(walletAddress) {
-  console.log(walletAddress)
-} else {
-  console.log('no wallet address')
-}
 // if (!walletAddress) {
 //   createAppKit({
 //     adapters: [solanaWeb3JsAdapter],
@@ -49,45 +45,50 @@ if(walletAddress) {
 //   })
 // }
 
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
+
 const queryClient = new QueryClient()
 
 function App() {
 
-  // const { walletAddress } = useAppStateStore();
+  const { user_id } = useAppStateStore();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <div>
-                <ConnectWalletProvider>
-                  {/* {walletAddress ? ( // Conditionally render based on walletAddress
-                    <Navigate to="/tasks" replace={true} /> // Redirect if walletAddress exists
-                  ) : ( */}
-                    <Landing /> // Render Landing component if walletAddress is null/undefined
-                  {/* )} */}
-                </ConnectWalletProvider>
-              </div>
-            }
-          />
-          <Route
-            path="/tasks"
-            element={
-              <div>
-                <SidebarLayout>
-                  <Tasks />
-                </SidebarLayout>
-              </div>
-            }
-          />
-          {/* New page */}
+    <GoogleOAuthProvider clientId={CLIENT_ID}>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div>
+                  <ConnectWalletProvider>
+                    {user_id ? ( // Conditionally render based on walletAddress
+                      <Navigate to="/lists" replace={true} /> // Redirect if user_id exists
+                    ) : (
+                      <Landing /> // Render Landing component if walletAddress is null/undefined
+                    )}
+                  </ConnectWalletProvider>
+                </div>
+              }
+            />
+            <Route
+              path="/lists"
+              element={
+                <div>
+                  <SidebarLayout>
+                    <Lists />
+                  </SidebarLayout>
+                </div>
+              }
+            />
+            {/* New page */}
 
-        </Routes>
-      </Router>
-    </QueryClientProvider>
+          </Routes>
+        </Router>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
   );
 }
 
