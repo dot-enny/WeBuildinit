@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 
 const Landing = () => {
 
-  const { setUserId } = useAppStateStore();
+  const { setUserId, user_id } = useAppStateStore();
   const navigate = useNavigate();
   const [redirecting, setRedirecting] = useState(false); // Add state variable
 
