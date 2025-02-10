@@ -10,14 +10,17 @@ import { GoogleLogin } from "@react-oauth/google"
 import { BASE_URL } from "../lib/services";
 // import { useState } from "react";
 import { useAppStateStore } from "../lib/AppStateStore";
+import { useState, useEffect } from "react";
 
 const Landing = () => {
 
   const { setUserId } = useAppStateStore();
   const navigate = useNavigate();
+  const [redirecting, setRedirecting] = useState(false); // Add state variable
 
   const getGoogleLogin = async (credentialResponse: any) => {
     const requestBody = { token: credentialResponse.credential }
+    setRedirecting(true);
     try {
       const response = await fetch(`${BASE_URL}users/auth/google`, {
         headers: {
@@ -32,11 +35,17 @@ const Landing = () => {
       });
       const data = await response.json();
       setUserId(data.user_id)
-      navigate('/lists')
     } catch (error) {
       console.log('error fetching user', error)
-    }
+    } finally {
+      setRedirecting(false);
   }
+
+    useEffect(() => {
+        if (user_id && !redirecting) { // Redirect only if user_id is set *and* we're not already redirecting
+          navigate('/lists');
+        }
+      }, [user_id, navigate, redirecting]);
 
   return (
     <div className="bg-[#040404]">
