@@ -39,6 +39,7 @@ const Landing = () => {
       console.log('error fetching user', error)
     } finally {
       setRedirecting(false);
+    }
   }
 
     useEffect(() => {
